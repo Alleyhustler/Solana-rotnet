@@ -1,0 +1,1 @@
+html,main{overflow:hidden}main{padding:0;background:var(--black);height:calc(100vh - 3em);width:100%;outline-offset:-1px;user-select:none;-moz-user-select:none;-webkit-user-select:none}main svg{fill:var(--black);width:40vmin;margin:0}noscript{display:block;max-width:47em;margin:2em;color:var(--white)}@media print{main{display:none}}

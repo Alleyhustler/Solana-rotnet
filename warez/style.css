@@ -1,0 +1,1 @@
+.indent-1{padding-left:2em}.indent-2{padding-left:4em}dt{float:left;font-weight:700;width:17em;margin-bottom:1px}dd{margin-left:0;border-bottom:1px dotted #000}dd::after{content:"";clear:both;display:table}dt a{color:inherit}dt a:hover{text-decoration:initial}dt:target+dd{background-color:var(--light-bg-hl)}

@@ -1,0 +1,1 @@
+"use strict";$("section").forEach(e=>{const t=e.querySelector("a");t.onclick=t.ontouchend=n=>{t.onclick=t.ontouchend=null,e.innerHTML=`<iframe src="${t.href}" allow="autoplay" allowfullscreen></iframe>`,n.preventDefault()}})

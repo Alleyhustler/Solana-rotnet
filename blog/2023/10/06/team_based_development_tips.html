@@ -1,0 +1,93 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2023/10/06/team_based_development_tips by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:23 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2023/10/06/team_based_development_tips.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=preload href=../../../../code.woff2 as=font type=font/woff2 crossorigin><script src=../../../../tag/egg.js defer></script><title>Team Based Development Tips</title>
+<meta name=author content="Keller"><meta name=description content="Assortment of tips and tricks I've picked up for working with teams of developers. Nothing groundbreaking, mostly things learned from others I've found useful."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Team Based Development Tips</h1><p>Building software gets more complicated the more people you have working on it. We often study
+techniques for dealing with code but gloss over techniques for dealing with other developers. Here's
+just a couple of my routine patterns for getting things done in large teams.<h2><a id=burndown-development href=#burndown-development>Burndown Development</a></h2><p>When you have a large codebase and large team you often end up needing to change something that
+exists in hundreds or thousands of places. You can't patch them all in one go. Additionally, as
+you're trying to replace them all, you'll often find people keep introducing new changes that add to
+the problem. To combat this, it's often best to create a burndown and work on the problem in small
+steps.<p>This is usually just a test case or static analysis pass that's required to succeed as part of the
+process of adding changes. Its job is to enumerate every instance of the old thing and fail if it
+finds any. You then run it and collect every known instance of the existing thing. Add all those to
+a list of ignored instances. When it finds someone adding a new one it explains that doing it the
+old way is no longer allowed and provides info about the new way.<p>You've now got two resources. First you have a list of every single instance that needs updating and
+can prune it as you go to chart your progress. You've also got a method to prevent the problem
+getting any bigger.<h2><a id=gradual-automation href=#gradual-automation>Gradual Automation</a></h2><p>Ever had a step by step manual process and thought the computer should be able to do it? If you turn
+that list into a program that displays each step, it can be. For each step, it prints the existing
+instructions and waits for you to tell it to continue. Now as you have time you can automate just
+one or two steps. Over time the number of manual steps required can shrink until the tool just does
+the whole thing start to finish.<p>Often the barrier to automation is getting credential management setup so you can share
+<abbr title="Application Programming Interface">API</abbr> credentials safely. You can see my posts
+on this <a href=../../../2020/01/24/how_to_secure_application_credentials.html>problem</a> and a
+possible <a href=../../../2020/10/31/decentralized_secret_management.html>solution</a> for more
+information.<p>The harder barrier is often using tools that prevent automation altogether. Sometimes you can fix
+this by emitting keyboard and mouse events. Often the best path here is to choose and use better
+tools when possible. When it's not, you can at least tell the human to go deal with the tricky part
+and report back needed details. I often find automating the clipboard here is your friend.<h2><a id=leaderboards href=#leaderboards>Leaderboards</a></h2><p>Want something measurable improved? Create a leaderboard to track who's improved it the most. This
+can be things like dead code deletions, performance improvements, documentation writing, dependency
+updates, <abbr title="et cetera; and so forth">etc.</abbr>.<p>Just be careful! If you publish the bottom of the board, it can lead to all sorts of negative
+impacts. You also want to make sure that people gaming the system are still being productive. Think
+before you publish. It's often vital that the initiative only live for a limited time to maximize
+impact and minimize adverse effects.<h2><a id=ship-the-org-chart href=#ship-the-org-chart>Ship The Org-Chart</a></h2><blockquote><p>Any organization that designs a system (defined broadly) will produce a design whose structure
+is a copy of the organization's communication structure.<footer>— <em>Conway's Law</em></footer></blockquote><p>This is also true over time. If your org keeps moving people around, your system will end up a big
+ball of spaghetti. If you have high developer turnover, you end up with a lot of dead or zombie
+code. If your system has discrete versions, they'll end up visible in the product like sedimentary
+rock. To maximize architectural success, just ship your org-chart. This requires you to deeply
+understand the actual communications structure of the organization and mirror it into the system.<p>Microservices work well at Amazon because their org-chart is huge, with a bunch of fairly large
+independent teams. Having those teams dependant on each other kept bottlenecking them. Making them
+fully independent by incorporating the whole range of expertise within the team unit was the
+underlying success of microservices. It wasn't about service size, it was about contention.<p>If your org-chart is more like an onion, build your product as an onion, in layers. If your
+org-chart is small and only has one or two teams, build it in just one or two parts. To maximize
+success, modularize the system along the human communication boundaries.<p>Think of it like this: I communicate with myself almost infinitely fast. If you've got a partner,
+you communicate so often you usually don't need to say much for the other to know what you're
+thinking. If you grow to a team, you'll often talk a couple times a day. Independent teams will talk
+maybe once a week or less and sometimes not at all depending on the project. Often this gets
+mediated through other people which further reduces the bandwidth of the communication. Each of
+these changes should be reflected in the system you build.<p>If you have more modularity than you need, you end up with waste in context switching as teams and
+people keep bouncing between the components of the system. If you have less than you need, you end
+up with contention, teams and people keep dropping work while waiting on others to finish things. If
+your team is growing, you're always trying to Goldilocks it and you can't future proof.<p>If you're astute, this is just what human queueing theory looks like.<h2><a id=identify-and-close-open-loops href=#identify-and-close-open-loops>Identify And Close Open Loops</a></h2><p>Another branch of theory that shows up in dozens of places under different names, including
+interacting with other developers is control theory. The central thesis of control theory is the
+control loop. You have a control loop whenever you want to change something. Any modification at
+all. That's why it keeps showing up.<p>A closed loop consists of not only modification, but also observation. If you only have
+modification, it's an open loop. Any open loop is unstable and will fail at some point.<p>Examples of control theory in the social space include the
+<a href=https://en.wikipedia.org/wiki/OODA_loop><abbr title="Observe, Orient, Decide, Act">OODA</abbr> Loop</a>
+and the
+<a href=https://www.worldcat.org/title/875205252><abbr title="Objective, Reflective, Interpretive, Decisional">ORID</abbr> Method</a>.
+It's why there's no such thing as the, "I'm dead," protocol both in high availability systems to
+detect failure, and when you don't phone your mom and worry her sick. It's why you've got to check
+that delegated work is done as you expected it to be.<p>The simplest example is a light switch. If you turn it on there's a non-zero chance the light never
+actually turns on. There's usually a closed loop there though. If a human switches it and it doesn't
+come on, they observe other lights nearby. If those lights are also not working, they conclude
+there's a power out. If they work, they conclude the bulb burnt out. They're closing the loop.<p>Most of the code we write just assumes <code>light.on()</code> works 100% of the time. It's not just
+this, but your programs are full of errors you don't check. How often do you handle memory
+allocation failure? Have you ever checked to see that the <var>STDOUT</var> file descriptor was open
+before you wrote to it? When you modify a file or database, are you checking that it wasn't
+corrupted? When you put something in a queue, how do you know the other end is still processing?<p>When you don't close loops they're implicitly closed by a human, either your users or whoever gets
+paged when it fails. This is why humans have yet to build a fully autonomous system. To do so would
+require there be no path that cannot achieve the objective. When you work it out, you just find an
+infinite series of progressively unlikely failure modes, ever more expensive to close without a
+human.<p>A lot of people want to minimize the human in closing these loops. It's why you test your code. If
+you modify the software without checking it does what you expect given some input, it's likely going
+to fail. By checking you're closing the loop. When you don't check that a modification arrived at
+the state you want, you might as well flip a coin. The odds are often way better than 50/50, but the
+probability of failure is cumulative. That means in the limit, it is guaranteed to fail. The key is
+using observation to reduce the probability so it grows as slowly as practical.<h2><a id=developing-other-developers href=#developing-other-developers>Developing Other Developers</a></h2><p>If you're focused only on the code, you're missing out on your ability to give back all the
+incredible things you've taken from the development community. How much have you learned from those
+who helped teach you? Are you helping to teach the next generation of developers? See about
+mentoring others. Find ways to give talks. Write or record videos explaining things you've learned.
+You can even build things that help others. You can do whatever you like but try to create more than
+you've consumed.<p>Also remember that other people are constantly worried about what you think of them. Take some time
+to admire their work. Let them know what you sincerely think. Constructive criticism is fine, but
+you probably aren't taking enough time to point out the parts that you're genuinely impressed by or
+that you find elegant.<p>In code reviews, people often only focus on defects or how they'd have done it differently. Spend
+some time to sincerely praise things you admire from time to time. When someone goes out of their
+way to improve things, go out of your way to thank them. A trick to knowing what work people care
+most about is how often they talk about or share it. Knowing how often they bring it up requires
+actively listening to them.<p>If you don't do small things just because big things exist you are causing more problems than you
+can solve.</article></main>

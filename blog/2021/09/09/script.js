@@ -1,0 +1,1 @@
+"use strict";(()=>{const e=new Audio(window.location.hostname==="ve3zsh.neocities.org"?"https://ve3zsh.ca/blog/2021/09/09/ipa.mp3":"ipa.mp3");$("#ipa").onclick=t=>{t.preventDefault(),e.play()}})()

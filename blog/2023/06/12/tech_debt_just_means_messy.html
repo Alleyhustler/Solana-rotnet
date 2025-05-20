@@ -1,0 +1,48 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2023/06/12/tech_debt_just_means_messy by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:23 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2023/06/12/tech_debt_just_means_messy.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=stylesheet href=style.css><script src=../../../../tag/egg.js defer></script><title>Tech Debt Just Means Messy</title>
+<meta name=author content="Keller"><meta name=description content="Doubling down on a bad metaphor, a response."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Tech Debt Just Means Messy</h1><p>A few days ago I read an essay about
+<a href=https://apenwarr.ca/log/20230605>tech debt metaphor maximalism</a>. I've
+<a href=../../../2022/02/22/tech_debt_is_silly.html>written about this before</a> from the
+opposite position so it was interesting to see the counter argument being made that the problem with
+the tech debt metaphor is that it's not being taken far enough.<figure><div class=no-css></div><img src=cable_rack_1.webp alt="Two computer racks full of cables connected to a couple computers on a nearby table." loading=lazy height=667 width=500><div class=no-css></div><figcaption>Server Rack<br><a href=https://www.flickr.com/photos/hendricksphotos/754961512/>Daniel M.
+Hendricks</a> -
+<a href=https://creativecommons.org/licenses/by-nd/2.0/>CC BY-ND 2.0</a></figcaption></figure><p>First off, the post is an excellent overview of financial concepts surrounding debt. It covers many
+more concepts than those I present in my own piece including high versus low interest debt, various
+debt ratios, and refinancing. I think it's a light hearted primer on debt and I quite enjoyed its
+work at making such concepts approachable.<p>There's also many points I completely agree with the author. For example,<blockquote><p>Tech debt, in its simplest form, is the time you didn't spend making tasks more efficient.
+When you think of it that way, it's obvious that zero tech debt is a silly choice.</blockquote><p>Completely. I even addressed this in my own piece. I note that the amount of cleanliness should be
+proportional to the type of safety you require in the work you're doing. From a pure mess
+standpoint, existence itself is a form of mess. It's entropy in an otherwise pristine nothingness.
+Said another way, the best code is no code at all because there's nothing to maintain.<p>That said, there were also places we came to completely different conclusions because of the
+metaphor we choose. For example,<blockquote><p>What's weirder is that as the absolute value of product equity increases, you can take on a
+larger and larger absolute value of tech debt.<p>That feels unexpected. If we're doing so well, why would we want to take on more tech debt?
+But think of it this way: if your product (thus company) are really growing that fast, you
+will have more people to pay down the tech debt next year than you do now.</blockquote><p>The author goes on to use the concept of leverage to describe why this often fails. They say that
+managed properly, it makes sense for the mess to get bigger if you're growing because next year you
+can hire more people to go clean it up. When this doesn't work it's because you over leveraged. You
+made more mess than you could hire to fix.<p>Why do I disagree? If I make a mess of my room I can clean it up. I can even make sweeping changes
+to do so. I could move the bed, replace the dresser, or throw away the cloths on the floor that I'm
+not going to wear again anyway. When you hire a janitor they can sweep and scrub but they're not
+going to go and throw out your stuff as a first choice to deal with it. I'll wash and fold your
+floor cloths at considerable time and cost only for you to later explain that they could have just
+been tossed. You can only refactor your space when you know why everything was put there in the
+first place.<figure><div class=no-css></div><img src=cable_rack_2.webp alt="Computer rack with a huge mess of crisscrossing network cables of various colours." loading=lazy height=885 width=500><div class=no-css></div><figcaption>Choose wisely…<br>Network cable disaster spaghetti.<br><a href=https://www.flickr.com/photos/dvanzuijlekom/6466289577/>Dennis van
+Zuijlekom</a> -
+<a href=https://creativecommons.org/licenses/by-sa/2.0/>CC BY-SA 2.0</a></figcaption></figure><p>Hiring code janitors to clean it up is often going to take more time and money than just cleaning as
+you go. Who wants to go work somewhere they'll be writing unit tests and documentation for a thing
+the person who quit before them did? I can say from experience you'll try and those people will quit
+in a few months when they figure out what you're trying to pull.<p>That's especially true since, as I pointed out in my essay, we don't have a tech debt unit. There's
+no numbers involved and this essay still hasn't addressed that. It's all just rhetoric. The author
+even shows some of the math of debt but doesn't once bring up a single code metric that follows the
+same model as debt. Not even lines of code.<p>I still wonder though, why are we trying to use a complicated concept like debt when something much
+simpler exists? Throughout the piece I've shown a couple example pictures of the classic over
+patched networking rack. What do we get trying to call something like this tech debt? I think we're
+just trying to hide behind jargon to make ourselves feel smart. It's just a mess. Even children get
+what a mess is. I don't think it improves our communication when we try to explain how it's kind of
+like capital leverage (and what that even is) when we choose to ignore a mess for now and schedule
+time to clean it up later.</article></main>

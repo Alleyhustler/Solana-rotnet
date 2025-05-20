@@ -1,0 +1,1 @@
+"use strict";$("main li").forEach(e=>e.style.setProperty("--sprite-pos",e.dataset.pos))

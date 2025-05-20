@@ -1,0 +1,1 @@
+"use strict";(()=>{function e(e,t=3e3){const n=$(`<p aria-role="alert">${e}</p>`);$("#toast-bar").appendChild(n),setTimeout(n.remove.bind(n),t)}$("body").appendChild($('<aside id="toast-bar"></aside>')),window.toast=e})()

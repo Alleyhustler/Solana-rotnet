@@ -1,0 +1,101 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2024/01/28/why_i_removed_my_xslt_feed_template by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:22 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2024/01/28/why_i_removed_my_xslt_feed_template.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=preload href=../../../../code.woff2 as=font type=font/woff2 crossorigin><script src=../../../../tag/egg.js defer></script><title>Why I Removed My XSLT Feed Template</title>
+<meta name=author content="Keller"><meta name=description content="Explaining the reasons why I finally removed the XSLT feed template from my blog index feed."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Why I Removed My <abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> Feed
+Template</h1><p>I've sadly stopped templating my blog feed to look pretty in a browser. But why? A combination of
+Lynx, long term support worries, and user confusion.<h2><a id=lynx href=#lynx>Lynx</a></h2><p>I explicitly test my site in two classes of browsers, what I'd distinguish as application platforms
+and smart document readers. The application platforms are the browsers you're probably most familiar
+with. They're the ones that implement the vast majority of the
+<a href="https://www.w3.org/TR/?status%5B0%5D=standard"><abbr title="World Wide Web Consortium">W3C</abbr> standards</a>.
+Essentially <a href=https://www.mozilla.org/en-CA/firefox/new/>Firefox</a>,
+<a href=https://www.chromium.org/getting-involved/download-chromium/>Chromium</a>, and in most
+cases, <a href=https://www.apple.com/ca/safari/>Safari</a>.<p>While current trends point to the list of application platform browsers ultimately just meaning
+Chrome one day soon, I hold out hope that web developers will continue working to ensure their code
+works on more than <s>Microsoft Windows</s>, sorry Google Chrome and users demand the same.<p>The other class are the smart document readers. These are browsers that mostly decode
+<abbr title="Hypertext Markup Language">HTML</abbr> documents for you. They may implement some
+<abbr title="Cascading Style Sheets">CSS</abbr> support and may even include some JavaScript
+support. They don't see the web as an application platform, but instead see it as hyperlinked smart
+documents. These are browsers like <a href=https://www.palemoon.org/>Pale Moon</a>,
+<a href=https://ladybird.dev/>Ladybird</a>,
+<a href=https://www.netsurf-browser.org/>NetSurf</a>,
+<a href=https://kristall.random-projects.net/>Kristall</a>,
+<a href=https://github.com/rkd77/elinks/>eLinks</a>,
+<a href=https://lynx.invisible-island.net/>Lynx</a>, and
+<a href=https://w3m.sourceforge.net/>w3m</a>.<p>I'm not going to hold myself up as some sort of user agent compatibility hero or anything. I mostly
+develop in a recent version of Firefox and then double check my work in a couple other browsers. For
+example I recently tested my site in NetSurf and found it was usable but ugly. I've added fixing
+that to my work backlog. That aside there is one smart document browser I do explicitly support, and
+that's Lynx.<p>Why Lynx? Well, I think it's the best terminal based browser, but more importantly it makes a great
+accessibility target. It explicitly only looks at a site's
+<abbr title="Hypertext Markup Language">HTML</abbr>. This means it doesn't force me to go out of my
+way to fix things. Even the newest <abbr title="Hypertext Markup Language">HTML</abbr> is almost
+perfectly backward compatible to the beginning of the web. In general, there's not much to
+supporting it besides ensuring I don't overload the <abbr title="Document Object Model">DOM</abbr>
+with junk like huge navigation menus at the top or relying on images to convey meaning. You know,
+things that are considered best practices for accessibility. Essentially, by supporting Lynx, I get
+accessibility nearly free. It also means I can dump my site using Lynx and pipe it through text to
+speech software (something I often do to proofread my writing).<p>The ideal draw of the whole <abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr>
+template like this is it can seamlessly provide the data formatted as either
+<abbr title="Really Simple Syndication">RSS</abbr> or
+<abbr title="Extensible Hypertext Markup Language">XHTML</abbr> depending on the program looking at
+it. Essentially I was hoping I could give you a copy of the data and then a set of different
+rendering instructions for that data depending on context. Sort of what the web has been chasing for
+decades at this point.<p>The problem is that most smart document browsers don't support
+<abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr>. If you try to view them in
+Lynx, it tries to render the minified <abbr title="Extensible Markup Language">XML</abbr>
+<abbr title="Really Simple Syndication">RSS</abbr> document by just ignoring tags it doesn't know
+about (which is everything) and ends up with an unintelligible minified mess. This left me two
+options, don't ship the <abbr title="Really Simple Syndication">RSS</abbr> feed minified and let
+Lynx users suffer having to manually navigate past the index by copy pasting
+<abbr title="Uniform Resource Locator">URL</abbr>s, or, ship the feed as a proper
+<abbr title="Hypertext Markup Language">HTML</abbr> page and link to the
+<abbr title="Really Simple Syndication">RSS</abbr> feed. I did the second but that somewhat defeated
+the entire point.<h2><a id=long-term-support href=#long-term-support>Long Term Support</a></h2><p>Another consideration that changed my mind was weighing out the likely long term support of
+<abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> in browsers. If not enough
+people use something or the developers of browsers just dislike it enough, history shows they will
+just drop it. We've seen this with things like Gopher and
+<abbr title="File Transfer Protocol">FTP</abbr> support,
+<abbr title="XML User Interface Language">XUL</abbr> and
+<abbr title="Cross Platform Component Object Model">XPCOM</abbr>, domain names that start with
+<code>www</code>, and other such "deprecated"
+<abbr title="Application Programming Interface">API</abbr>s. In general I can't stand this churn for
+churn's sake, so I try and preemptively avoid things that will likely force me to do a bunch of work
+at their whim.<p>I'm pretty sure <abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> in the
+browser, given its relative lack of documentation compared to other browser features, and standing
+contempt for <abbr title="Extensible Markup Language">XML</abbr> among developers means it isn't
+long for this world. Might as well stop relying on it being there now. On the bright side, the way I
+was using it means even if they remove it, it just reverts the document to the state it exists in
+now without the template. It would continue to work well into the future for any reader that doesn't
+apply the template transform.<p>That last point is also something worth considering a bit. What the template is doing is converting
+the data from <abbr title="Really Simple Syndication">RSS</abbr>
+<abbr title="Extensible Markup Language">XML</abbr> into
+<abbr title="Extensible Hypertext Markup Language">XHTML</abbr>. I have yet to find an
+<abbr title="Really Simple Syndication">RSS</abbr> reader that parses and applies the template to
+the data before trying to interpret it, but in theory, nothing stops it from assuming that's what I
+want it to do. If a reader was applying
+<abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> templates to the document,
+that would break my feed for them. Removing it removes that possibility.<h2><a id=user-confusion href=#user-confusion>User Confusion</a></h2><p>The last reason is ultimately the one that pushed me to remove it. I think it just added user
+confusion instead of reducing it. I assume just about everyone else using
+<abbr title="Really Simple Syndication">RSS</abbr> readers expect the feed to be completely unstyled
+because basically nobody else styles it. When I styled the feed, I felt I had to add a paragraph
+explaining, no the page you're viewing in the browser that looks like
+<abbr title="Hypertext Markup Language">HTML</abbr> isn't really
+<abbr title="Hypertext Markup Language">HTML</abbr> and will actually work in your feed reader. That
+really should have been a sign that the whole project was a bad design. If you break people's
+expectations, you should be doing it because there's a good reason. Design aesthetics aren't a good
+reason to break things.<p>So instead of explaining that my feed that doesn't look like a feed really is a feed, I'm just going
+to make it look like every one else's feed. It's simpler and expected. To quote myself,
+<q cite=../../../2020/08/03/rss_as_html.html>angle brackets panic the users</q>, but
+<abbr title="Really Simple Syndication">RSS</abbr> feeds that look like
+<abbr title="Hypertext Markup Language">HTML</abbr> pages panic them more.<h2><a id=notes-about-doing-it-yourself href=#notes-about-doing-it-yourself>Notes About Doing It Yourself</a></h2><p>I'm not going to remove my <a href=../../../2020/08/03/rss_as_html.html>previous post</a>
+explaining how to use the technique. You can still (at the time of writing) try it out yourself.
+Perhaps you feel differently about the benefits and drawbacks. I still think it's something worth
+trying out to understand what could have been if we went with
+<abbr title="Extensible Hypertext Markup Language">XHTML</abbr> instead of
+<abbr title="Hypertext Markup Language">HTML</abbr> 5. It's certainly not perfect, but kind of neat
+to provide a suite of different rendering instructions to interpret the same data for different
+contexts.</article></main>

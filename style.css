@@ -1,0 +1,123 @@
+img {
+    border-radius: 0
+}
+
+ul {
+    display: grid;
+    grid-template-columns: repeat( auto-fill,minmax(18em,1fr) );
+    gap: .5em;
+    list-style: none;
+    margin-left: 0
+}
+
+li {
+    overflow: hidden;
+    position: relative;
+    border-color: var(--black);
+    border-image: url(img/border.png)11 8;
+    border-style: solid;
+    border-width: 11px 8px;
+    min-height: 5em;
+    max-width: 40em
+}
+
+li a::before {
+    content: "";
+    background-image: linear-gradient(0,rgba(18,16,16,0) 50%,rgba(0,0,0,.1) 50%),linear-gradient(90deg,rgba(255,0,0,6%),rgba(0,255,0,6%),rgba(0,0,255,6%));
+    background-size: 100% 2px,3px 100%;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1
+}
+
+li a::after {
+    content: attr(title);
+    position: absolute;
+    left: -1px;
+    bottom: -1px;
+    transform: translateY(4em);
+    transition: transform .03s ease;
+    height: 4em;
+    line-height: 4em;
+    overflow: hidden;
+    padding: 0 2em;
+    width: calc(100% + 2px);
+    background: rgba(0,0,0,.7);
+    color: var(--white);
+    z-index: 1
+}
+
+li a:hover::after,li a:focus-visible::after {
+    transform: translateY(0)
+}
+
+main img::before {
+    position: absolute;
+    min-height: 3em;
+    height: 100%;
+    width: 100%
+}
+
+@media print {
+    a[href]::before,a[href]::after {
+        display: none
+    }
+}
+
+@media(prefers-reduced-motion:no-preference) {
+    main li::before {
+        position: absolute;
+        content: "";
+        height: 400%;
+        left: -50%;
+        top: -150%;
+        width: 300%;
+        animation: grain 6s steps(10)infinite;
+        background-image: url(img/noise.png);
+        background-size: auto;
+        opacity: .2
+    }
+
+    @keyframes grain {
+        0%,100% {
+            transform: translate(0,0)
+        }
+
+        10% {
+            transform: translate( -5%,-10%)
+        }
+
+        20% {
+            transform: translate(-15%,5%)
+        }
+
+        30% {
+            transform: translate( 7%,-25%)
+        }
+
+        40% {
+            transform: translate( -5%,25%)
+        }
+
+        50% {
+            transform: translate(-15%,10%)
+        }
+
+        60% {
+            transform: translate( 15%,0%)
+        }
+
+        70% {
+            transform: translate( 0%,15%)
+        }
+
+        80% {
+            transform: translate( 3%,35%)
+        }
+
+        90% {
+            transform: translate(-10%,10%)
+        }
+    }
+}

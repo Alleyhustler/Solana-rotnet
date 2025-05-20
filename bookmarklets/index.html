@@ -1,0 +1,89 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/bookmarklets/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:14 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/bookmarklets/index.html><link rel=icon href=../favicon.ico sizes=16x16><link rel=icon href=../favicon.svg type=image/svg+xml><link rel=stylesheet href=../core.css><link rel=stylesheet href=../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../core.js defer></script><link rel=preload href=../code.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=../tag/form.css><link rel=stylesheet href=style.css><script src=../tag/egg.js defer></script><title>Bookmarklets</title>
+<meta name=author content="Keller"><meta name=description content="My collection of scripts useful to surf and develop the web."><header id=top class=no-print><a id=logo href=../index.html><img src=../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../index.html class=menu-item><img src=../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../blog/index.html class=menu-item><img src=../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../links/index.html class=menu-item><img src=../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../contact/index.html class=menu-item><img src=../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Bookmarklets</h1><p>This is my tiny collection of bookmarklets as minified links, readable source code, and now also
+packaged together as a userscript for your context menu if you have a browser addon like
+Tampermonkey installed:<div class=no-css></div><form action=#><a class=button href=Bookmarklets.user.js>Install Userscript
+</a><span class=no-css>| </span><a class=button target=_blank title="What is this?" href=https://greasyfork.org/en/help/installing-user-scripts><span class=no-css>What is this</span>?</a></form><p>If you're already familiar with what bookmarklets are and how to use them, then you can
+<a href=#archive-version>skip down to the headings below</a>. Each one is a bookmarklet I wrote to
+help when I'm surfing and developing for the web. If not, read on for a brief overview of what they
+are and how to use them.<h2><a id=what-are-bookmarklets href=#what-are-bookmarklets>What are bookmarklets?</a></h2><p>Bookmarklets are <abbr title="Uniform Resource Identifiers">URIs</abbr> that sit in the
+<code>javascript</code> scheme. This scheme is honoured by most user agents to indicate that the
+data following the scheme represents executable JavaScript that can be run in the context of the
+current page. This is of course powerful, and as such formidable. As a result some user agents have
+taken steps to gate access to this functionality. You may have to enable them in your user agent
+and/or be sure that your bookmarks really do start with the <code>javascript:</code> prefix when you
+try to save them. It should be possible though on any dominant user agent.<p>It is worth understanding that any bookmarklet you run has the ability to completely impersonate you
+on the page. The user agents are guarding this functionality because people have been phished into
+running bookmarklets that steal their credentials to popular websites. As a good rule of thumb, be
+suspicious of any bookmarklet that loads scripts from elsewhere as they're harder to audit and can
+be changed to include malicious functionality at any point in the future. As always, if you don't
+trust it, don't run it.<p>The best way to use bookmarklets is by running around with your bookmark toolbar enabled at all
+times. Many user agents have begun to hide this by default or only show it on blank tabs. It should
+be possible to configure it to always show this. Finally, with all that out of the way, you should
+only have to drag a bookmarklet link (like the headings on this page) into your bookmark toolbar and
+then click to use it on any page. Neat, right? They're kind of like an add-on/extension without all
+the hassle of installing it or letting it run in the background on every page you visit. It only
+runs when you click it.<p>Not much else to say. Each bookmarklet below has a short description of what it does and the source
+code without any compression applied. I've also gone ahead and disabled my
+<abbr title="Content Security Policy">CSP</abbr> forbidding inline scripts on this page so you can
+try them out without even having to add them to your bookmarks. Hope you find something useful!<h2 class=bookmarklet><a id=archive-version href=#archive-version>Archive Version</a>
+<span class=no-css>| Bookmarklet: </span><a class=button href="javascript:(()=%3E%7Bwindow.location.href=%60https://web.archive.org/web/*/$%7Bdocument.URL%7D%60%7D)()">Archive Version</a></h2><pre><code>window.location.href = `https://web.archive.org/web/*/${document.URL}`;</code></pre><p>See if the page was archived at some point by the
+<a href=https://archive.org/>Internet Archive</a>. If you find yourself often using this, consider
+donating to them for the insane amount of charity they do for the web ecosystem. If you don't have
+the cash to spare, perhaps consider signing up for an account to browse their huge catalogue of
+online books.<h2 class=bookmarklet><a id=border-debug href=#border-debug>Border Debug</a>
+<span class=no-css>| Bookmarklet: </span><a class=button href="javascript:(()=%3E%7Bdocument.querySelectorAll(%22*%22).forEach((e,o)=%3E%7Be.style.boxShadow=%220%200%200%201px%20red%20inset%22%7D)%7D)()">Border Debug</a></h2><pre><code>document.querySelectorAll("*").forEach((elm) => {
+	elm.style.boxShadow="0 0 0 1px red inset";
+});</code></pre><p>Show the box model of the page by putting a bright red box around everything. See that the nesting
+looks good and nothing's chunky or broken. This is super valuable for spotting inline elements
+inside block elements, or links with a click target that is bigger than the visible parts of the
+element. It also helps debug a wide variety of other <abbr title="Cascading Style Sheets">CSS</abbr>
+and box model issues. This is by far the bookmarklet I use most.<h2 class=bookmarklet><a id=list-globals href=#list-globals>List Globals</a>
+<span class=no-css>| Bookmarklet: </span><a class=button href="javascript:(()=%3E%7Bconst%20e=open(),t=new%20Set(Object.keys(e.window));e.document.documentElement.innerText=Object.keys(window).filter(e=%3E!t.has(e)).toSorted().join(%22%5Cn%22)%7D)()">List Globals</a></h2><pre><code>const newWindow = open();
+const agentGlobals = new Set(Object.keys(newWindow.window));
+newWindow.document.documentElement.innerText = (
+	Object.keys(window)
+		.filter((key) => !agentGlobals.has(key))
+		.toSorted()
+		.join("\n");
+);</code></pre><p>This lists all the global variables on the page. Super handy to start to understand a site's code
+and <abbr title="Application Programming Interface">API</abbr>s. It just compares the globals of the
+tab to that of a blank tab. It then uses said blank tab to list the unique global properties of the
+current tab, one per line. It's also a great gauge of how clean the devs are being about state. You
+wouldn't believe all the junk you often find.<aside><h3><a id=list-globals-userscript-version href=#list-globals-userscript-version>Userscript Version</a></h3><p>In the userscript version I'm unable to open a new tab without it looking like a popup to your
+browser so instead I log them to the developer console. Since I can't open a fresh tab, I also made
+the change to compare the addon's window context to the current tab. This could in theory cause some
+discrepancies between the bookmarklet version and the userscript version if your browser is doing
+anything fancy with addons.</aside><h2 class=bookmarklet><a id=url href=#url><abbr title="Uniform Resource Locator">URL</abbr>++</a>
+<span class=no-css>| Bookmarklet: </span><a class=button href="javascript:(()=%3E%7Bwindow.location=window.location.href.replace(/(%5B%5E0-9%5D*)(%5Cd+)(%5B%5E0-9%5D*)/,(s,e,t,n)=%3E%60$%7Be%7D$%7BparseInt(t,10)+1%7D$%7Bn%7D%60)%7D)()"><abbr title="Uniform Resource Locator">URL</abbr>++</a></h2><pre><code>window.location = window.location.href.replace(
+	/(?&lt;start>[^0-9]*)(?&lt;num>\d+)(?&lt;end>[^0-9]*)/u,
+	(_, start, num, end) => `${start}${parseInt(num, 10) + 1}${end}`
+);</code></pre><p><a href=https://en.wikipedia.org/wiki/Wardialing>Wardialing</a> the
+<abbr title="Uniform Resource Locator">URL</abbr> continues to work to this day. Not perfect, not
+efficient, but a handy hammer when you spot a nail.<h2 class=bookmarklet><a id=zap-images href=#zap-images>Zap Images</a>
+<span class=no-css>| Bookmarklet: </span><a class=button href="javascript:(()=%3E%7Bdocument.querySelectorAll(%22img%22).forEach((e=%3Ee.src=%22%22))%7D)()">Zap Images</a></h2><pre><code>document.querySelectorAll("img").forEach((elm) => {
+	elm.src = "";
+});</code></pre><p>This sets every <code>&lt;img></code> tag's <var>src</var> attribute to an empty string which should
+break most images on the page. This won't break <abbr title="Cascading Style Sheet">CSS</abbr> based
+images. This just helps catch issues around alt text and graceful degradation of the site.<h2 class=bookmarklet><a id=zap-css href=#zap-css>Zap <abbr title="Cascading Style Sheets">CSS</abbr></a>
+<span class=no-css>| Bookmarklet: </span><a class=button href="javascript:(()=%3E%7B%5B...document.styleSheets%5D.forEach((e=%3Ee.disabled=!0))%7D)()">Zap <abbr title="Cascading Style Sheets">CSS</abbr></a></h2><pre><code>[...document.styleSheets].forEach((sheet) => {
+	sheet.disabled = true;
+});</code></pre><p>This disables all the <abbr title="Cascading Style Sheets">CSS</abbr> on the page. Both a graceful
+degradation test and super crude accessibility first pass. This helps catch a lot of insane sized
+images/<abbr title="Scalable Vector Graphic">SVG</abbr>s, menu hells, and
+<abbr title=JavaScript>JS</abbr> that assumes styles are working. It's not perfect. It doesn't
+catch <abbr title="Cascading Style Sheet">CSS</abbr> issues from assumed agent defaults or that
+older user agents aren't left with a mess of half working styles. On the other hand, every bit
+helps.<h2 class=bookmarklet><a id=sticky-fixer href=#sticky-fixer>Sticky Fixer</a>
+<span class=no-css>| Bookmarklet: </span><a class=button href="javascript:(()=%3E%7Bdocument.querySelectorAll(%22body%20*%22).forEach(e%3D%3E%7Bif(getComputedStyle(e).position%3D%3D%22fixed%22)%7Be.style.position%3D%22absolute%22%7D%7D)%7D)()">Sticky Fixer</a></h2><pre><code>document.querySelectorAll("body *").forEach((elm) => {
+	if (getComputedStyle(elm).position === "fixed") {
+		elm.style.position = "absolute";
+	}
+});</code></pre><p>Convert sticky elements (those that block valuable screen real estate) into fixed elements (so they
+scroll with the page). It's not perfect because some sites do funky things, but it at least tries to
+get rid if this design sin without completely deleting the element.</article></main>

@@ -1,0 +1,1 @@
+.row{display:flex}.col{flex:50%;margin:0}.col h3{margin:1em 0 0;text-align:center}.row .col ul{margin:.5em 1em 0 0}.row .col:last-child ul{margin:.5em 0 0 1em}

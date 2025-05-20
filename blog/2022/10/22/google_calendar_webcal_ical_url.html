@@ -1,0 +1,27 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2022/10/22/google_calendar_webcal_ical_url by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:24 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2022/10/22/google_calendar_webcal_ical_url.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=preload href=../../../../code.woff2 as=font type=font/woff2 crossorigin><script src=../../../../tag/egg.js defer></script><title>Google Calendar Webcal/iCal URL</title>
+<meta name=author content="Keller"><meta name=description content="A quick guide to getting the webcal formatted feed of a public Google calendar. Plus a bonus RSS URL for YouTube channels."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Google Calendar
+Webcal/<abbr title="Internet Calendaring and Scheduling Core Object Specification">iCal</abbr>
+<abbr title="Uniform Resource Locator">URL</abbr></h1><p>I know this is niche given the state of web manoralism, but I recently found a public Google
+calendar widget that I wanted to subscribe to in my preferred calendar application. This isn't the
+calendar I wanted to subscribe to, but it does make a typical example:</p><iframe src="https://calendar.google.com/calendar/embed?src=amaverify%40gmail.com" title="IAmA Schedule"></iframe><p>To get a webcal feed for it, you need to get the <abbr title="Uniform Resource Locator">URL</abbr>
+of the iframe or network request. You can find this in the developer tools in either the inspector
+or network tab. If you want to, try it here on this page to get the hang of it. It'll be something
+like
+<a href="https://calendar.google.com/calendar/embed?src=amaverify%40gmail.com">https://<wbr>calendar.google.com<wbr>/calendar<wbr>/embed<wbr>?src=<wbr>amaverify<wbr>%40gmail.com<wbr>&…</a>
+or
+<a href=https://www.googleapis.com/calendar/v3/calendars/amaverify%40gmail.com/events>https://<wbr>www.googleapis.com<wbr>/calendar<wbr>/v3<wbr>/calendars<wbr>/amaverify<wbr>%40gmail.com<wbr>/events<wbr>?…</a>.<p>You need the calendar name (often in the form of an email address). It's the value of the
+<code>src=</code> query parameter or the path between the <code>calendars</code> and
+<code>events</code> sections. It'll probably be URL encoded. Something like
+<code>amaverify%40gmail.com</code>. You then need to place that into the <var>***</var> section of
+the <abbr title="Uniform Resource Locator">URL</abbr>:<p><code>https://calendar.google.com/calendar/ical/***/public/basic.ics</code><h2><a id=youtube-rss href=#youtube-rss>Bonus: YouTube <abbr title="Really Simple Syndicatio">RSS</abbr> Feeds</a></h2><p>As a bonus factoid I don't want to create a separate post for, you can get a YouTube channel
+<abbr title="Really Simple Syndicatio">RSS</abbr> feed from the
+<abbr title="Uniform Resource Locator">URL</abbr>:<p><code>https://www.youtube.com/feeds/videos.xml?channel_id=***</code><p>In this case, <code>***</code> is the channel ID (something like <code>UC*******…</code>). You can
+get a channel ID by viewing the page source and searching around for <code>channelId</code> (at
+least for now). I'll update this if I notice either of these stop working.<p>You can also subscribe to playlists replacing <code>***</code> with the playlist ID like
+<code>PL*******…</code>:<p><code>https://www.youtube.com/feeds/videos.xml?playlist_id=***</code></article></main>

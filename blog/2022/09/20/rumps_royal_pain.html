@@ -1,0 +1,158 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2022/09/20/rumps_royal_pain by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:24 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2022/09/20/rumps_royal_pain.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=preload href=../../../../code.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=style.css><script src=../../../../tag/egg.js defer></script><title>Rump's Royal Pain</title>
+<meta name=author content="Keller"><meta name=description content="A deeper look at floating point numbers and when they go wrong."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Rump's Royal Pain</h1><p>Here's something cool I found. I'll explain later. For now, I simply want you to solve the following
+equation when&nbsp;<math><mi>x</mi><mo>=</mo><mn>77617</mn></math> and
+<math><mi>y</mi><mo>=</mo><mn>33096</mn></math>.</p><math display="block"><mn>333.75</mn><msup><mi>y</mi><mn>6</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>(</mo><mn>11</mn><msup><mi>x</mi><mn>2</mn></msup><msup><mi>y</mi><mn>2</mn></msup><mo>−</mo><msup><mi>y</mi><mn>6</mn></msup><mo>−</mo><mn>121</mn><msup><mi>y</mi><mn>4</mn></msup><mo>−</mo><mn>2</mn><mo>)</mo><mo>+</mo><mn>5.5</mn><msup><mi>y</mi><mn>8</mn></msup><mo>+</mo><mfrac><mi>x</mi><mrow><mn>2</mn><mi>y</mi></mrow></mfrac></math><h2><a id=what-did-you-get href=#what-did-you-get>What did you get?</a></h2><p>I bet you used a computer, didn't you… Well then your answer is almost certainly wrong. For example,
+<a href="https://www.wolframalpha.com/input?i=333.75y%5E6+%2B+x%5E2%2811x%5E%7B2%7Dy%5E%7B2%7D+-+y%5E6+-+121y%5E4+-+2%29+%2B+5.5y%5E8+%2B+%5Cfrac%7Bx%7D%7B2y%7D+when+x+%3D+77617+and+y+%3D+33096">WolframAlpha</a>
+gets <math><mn>1.18059</mn><mo>×</mo><msup><mn>10</mn><mn>21</mn></msup></math>. Yeah, not even
+close. It's off by roughly how many grains of sand exist on all the beaches in the world. I mean, it
+didn't even get the sign right! The correct answer is roughly <math><mn>−0.827396</mn></math>. Don't
+trust me? I've shown my work in <a href=#appx-1>Appendix 1</a>.<p>For now though, assuming you'll trust me, let's look at why this happens and in fact why computers
+are so bad at computing things like this. We can then look at possible solutions to this problem.<h2><a id=explanation href=#explanation>Explanation</a></h2><p><abbr title="Institute of Electrical and Electronics Engineers">IEEE</abbr> floating point strikes
+again…<p>I assume you've heard that floating point numbers have a precision problem. If not,
+<a href="https://www.youtube.com/watch?v=PZRI1IfStY0">Tom Scott's got a good video</a> for the
+uninitiated. Quick refresher, if you try and represent something like $5.26 using
+<abbr title="Institute of Electrical and Electronics Engineers">IEEE</abbr> floating point, you're
+going to have a bad day.<div class=no-css></div><pre><code>print(f"{5.26:.50}")</code></pre><div class=no-css></div><pre><samp>5.2599999999999997868371792719699442386627197265625</samp></pre><p>Sure, they've got some rounding errors, but how on earth can it go so horribly wrong in just a dozen
+or so operations?<p>Well, real numbers have a massive infinity of values. This is a finding many people learn early as
+they discover the possibilities in infinities. To recap, there are both infinitely many positive and
+negative integer numbers
+<math><mo>(</mo><mo>…</mo><mo>,</mo><mn>−2</mn><mo>,</mo><mn>−1</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mo>…</mo><mo>)</mo></math>,
+but there are also infinitely many real numbers between just 0 and 1
+&nbsp;<math><mo>(</mo><mn>0</mn><mo>,</mo><mn>0.5</mn><mo>,</mo><mn>0.75</mn><mo>,</mo><mn>0.875</mn><mo>,</mo><mn>0.9325</mn><mo>,</mo><mo>…</mo><mo>,</mo><mn>1</mn><mo>)</mo></math>
+and this is true between any pair of integers in the reals. Succinctly, some infinities (all the
+real numbers) are bigger than others (all the integer numbers).<p>When it comes to computers though, you're not getting infinite hardware. Especially for a primitive
+like a numeric type, you're only going to get so many bits. A typical desktop
+<abbr title="Instruction Set Architecture">ISA</abbr> like x86-64 uses the
+<abbr title="Institute of Electrical and Electronics Engineers">IEEE</abbr> 754 float64 standard
+(also known as a double). This standard deals with the limitation of 64 bits by converting the
+number to binary scientific notation and then allocating:<ul><li>52 bits to represent the coefficient (called the mantissa),<li>11 bits for the exponent of the value 2,<li>and the last one for a sign bit.</ul><p>That means you can only represent numbers up to &nbsp;
+<math><msup><mn>2</mn><mn>53</mn></msup></math> accurately. It's 53 and not 52 because we don't
+store the lead 1 of the mantissa since it's implied, and thus we gain a free bit. For example,
+<math><mn>1.0101001</mn><mo>×</mo><msup><mn>2</mn><mn>1101</mn></msup></math> stores the
+mantissa as 0101001.<p>Let's calculate the largest value we can store without rounding against the largest term in our
+equation:</p><math display="block" class="math-left"><mtable columnalign="left" columnspacing=".5em"><mtr><mtd><mo>=</mo></mtd><mtd><msup><mn>2</mn><mn>53</mn></msup></mtd></mtr><mtr><mtd><mo>=</mo></mtd><mtd><mn>9007199254740992</mn></mtd></mtr></mtable></math><p><abbr title=versus>vs.</abbr></p><math display="block" class="math-left"><mtable columnalign="left" columnspacing=".5em"><mtr><mtd><mo>=</mo></mtd><mtd><msup><mn>77617</mn><mn>2</mn></msup><mo>(</mo><mn>11</mn><mo>×</mo><msup><mn>77617</mn><mn>2</mn></msup><mo>×</mo><msup><mn>33096</mn><mn>2</mn></msup><mo>−</mo><msup><mn>33096</mn><mn>6</mn></msup><mo>−</mo><mn>121</mn><mo>×</mo><msup><mn>33096</mn><mn>4</mn></msup><mo>−</mo><mn>2</mn><mo>)</mo></mtd></mtr><mtr><mtd><mo>=</mo></mtd><mtd><mn>−7917111779274712207494296632228773890</mn></mtd></mtr></mtable></math><p>Yeah, seven undecillion is much bigger than nine quadrillion so there may be a bit of rounding. You
+can actually see this in action if you try printing these numbers with Python. At the 16th digit
+things start to get messy.<div class=no-css></div><pre><code>print(f"{-791711177927471<em>2</em>207494296632228773890}")
+print(f"{-791711177927471<em>2</em>207494296632228773890.0:.50}")
+print(f" {900719925474099<em>1</em>.0:.50}")
+print(f" {900719925474099<em>2</em>.0:.50}")
+print(f" {900719925474099<em>3</em>.0:.50}")</code></pre><div class=no-css></div><pre><samp>-791711177927471<em>2</em>207494296632228773890
+-791711177927471<em>1</em>955317401249464188928.0
+ 900719925474099<em>1</em>.0
+ 900719925474099<em>2</em>.0
+ 900719925474099<em>2</em>.0</samp></pre><p>Once your number is past the information limit for a given amount of hardware, you've got to start
+rounding. You can calculate how much we have to round given a certain number of bits using the
+equation:</p><math display="block"><mo>±</mo><mfrac><mrow><msup><mn>2</mn><mrow><mo>⌈</mo><msub><mo>log</mo><mn>2</mn></msub><mo>(</mo><mo>|</mo><mi>num</mi><mo>|</mo><mo>+</mo><mn>1</mn><mo>)</mo><mo>⌉</mo><mo>÷</mo><mn>2</mn></mrow></msup></mrow><mrow><msup><mn>2</mn><mi>bits</mi></msup></mrow></mfrac></math><p>In our case, <math><mi>num</mi><mo>=</mo><mn>−7917111779274712207494296632228773890</mn></math>,
+and <math><mi>bits</mi><mo>=</mo><mn>52</mn></math>, which when plugged into the above equation
+equals <math><mo>±</mo><mn>1.18059</mn><mo>×</mo><msup><mn>10</mn><mn>21</mn></msup></math>.
+Suspiciously, that's exactly what the computer thinks the answer is. I guess that means the answer
+is legitimately within the allowed rounding error. Hurrah, it's technically correct. I don't know
+about you, but I don't really like that answer, and it turns out I'm not alone.<h2><a id=what-now href=#what-now>What Now?</a></h2><p>At this point you at least know why your computer is lying. It's not, there's just an unspoken
+contract involving numerical precision based on the scale of the numbers involved. You're more than
+welcome to compute the precision yourself but the hardware's not going to do it for you. You've also
+got to account for any error introduced as the result of chained operations. But in theory,
+<a href=https://cr.yp.to/2005-590/goldberg.pdf>this is all calculable</a>.<p>Then why does it feel like a lie? Well, I'd argue it's because there's an implicit speed versus
+accuracy trade-off we're making. To elaborate let's briefly look at how integers handle this exact
+same problem.<h3><a id=integer-overflow href=#integer-overflow>Integer Overflow</a></h3><p>Integers have the same finite hardware problem. You can only represent numbers so big in an integer
+of a fixed size, but integers chose to be explicit in their overflow. When you overflow an integer
+(analogous to exceeding the precision limit of a float), you get a status flag set by the
+<abbr title="Central Processing Unit">CPU</abbr> which you can check and act on. You get extremely
+fast computations with a slower precision guard when you need it.<p>I actually think it's that last part that sticks out in the solution. Sometimes speed matters,
+sometimes accuracy matters. Having the choice is powerful. Programming language designers have
+various opinions about what makes the most sense for their users. Some languages leave the choice to
+you, some always check for overflows and raise a runtime exception for you to handle, and others
+just automatically bundle a <a href=http://catb.org/jargon/html/B/bignum.html>bignum</a> library
+to make sure you get the correct answer at the cost of a much slower calculation.<p>Python for example uses that last method, automatically using bignum arithmetic. The example earlier
+printing the number as in integer didn't round the number like it did when we appended the
+<code>.0</code> thanks to built in bignum support. It does this without the programmer having to
+worry about it. It just works. It's much slower than a regular integer, but how often do I really
+use such huge numbers. I'm not saying this is always the best answer, just noting it's a common one.<p>About that overflow flag. Can I have hardware fast computations that don't occasionally give me
+incorrect answers within some unspecified range of precision?<h3><a id=interval-arithmetic href=#interval-arithmetic>Interval Arithmetic</a></h3><p>Sadly, a hardware flag letting you know it rounded the answer isn't really helpful as most floating
+point numbers get rounded. What about rounded to more than your allowed precision? Well, you'd have
+to constantly specify what precision you accept for every operation and it still wouldn't capture
+the error that accumulates as you manipulate them. It's not off the table, but I don't know of
+anyone pursuing this. There's another way though.<p>There's a field of research in computational mathematics called
+<a href=https://en.wikipedia.org/wiki/Interval_arithmetic>interval arithmetic</a>. When you can't
+really sacrifice speed or accuracy, what if you're fine with answers that don't have a value but
+instead specify a range of possible values they could be? I mean, that's exactly what traditional
+floats are doing anyway, you've just been assuming the applied rounding to the interval was close
+enough to not matter.<p>For example, what if
+<math><mn>0.1</mn><mo>+</mo><mn>0.2</mn><mo>=</mo><mo>(</mo><mn>0.29999542236328125</mn><mo>,</mo><mn>0.3000030517578125</mn><mo>)</mo></math>?
+That is, the answer is somewhere in the interval. It's definitely not as nice as saying the answer
+is <math><mn>0.3</mn></math>, but your computer can't represent that using a base
+<math><mn>2</mn></math> scientific notation number anyway. It's always been rounding the value
+<math><mn>0.29999542236328125</mn><mo>±</mo><mn>~7.62939453125</mn><mo>×</mo><msup><mn>10</mn><mn>−6</mn></msup></math>,
+but now it's spelled out for you. You get to decide if that's close enough to the answer you wanted
+it to be. You can even apply the rounding yourself if you want. You just get to do so explicitly
+when the situation calls for it.<p>In 2015 a numerical type called a universal number (unum for short) was published by John Gustafson
+as a way to computationally represent exactly this concept. I'm not going to say something over the
+top like, "Everyone should stop using floats and use unums instead." That's absurd. They are
+fascinating though and worth checking out if you think your problem warrants this sort of guarded
+precision at the cost of more complex semantics and a slower runtime. I say slower runtime because
+they're only available in software libraries or accelerator cards priced at <em>contact us</em>™ (if
+you have to ask you can't afford it).<p>If you're curious about unums, there's
+<a href="https://www.youtube.com/watch?v=nVNYjmj_qbY">a talk by Ferris Ellis about them at Strange Loop</a>
+covering a bunch of the basics. It's honestly worth a watch even if you're never going to use them.
+The second half is a bit under informed and over extrapolated but while he's explaining the basics
+of unums it's a fairly useful overview.<h3><a id=other-alternatives href=#other-alternatives>Other Alternatives</a></h3><p>While intervals are interesting, they're also arguably a lot more work to understand and use. Some
+applications may be best expressed using them, but if you're using a library anyway and accuracy
+matters more than speed, there are bigfloat libraries. For example, gmpy2 is a Python library that
+provides bindings to libmpfr. It's easy enough to use and results in generally familiar code:<div class=no-css></div><pre><code>import gmpy2
+
+with gmpy2.local_context() as ctx:
+	ctx.precision = 125
+
+	x = gmpy2.mpfr(77617)
+	y = gmpy2.mpfr(33096)
+
+	x2 = x * x
+	y2 = y * y
+	y4 = y2 * y2
+	y6 = y4 * y2
+	y8 = y4 * y4
+
+	ans = (
+		333.75 * y6
+		+ x2 * (11 * x2 * y2 - y6 - 121 * y4 - 2)
+		+ 5.5 * y8
+		+ (x / (2 * y))
+	)
+
+print(f"{ans:.6}")</code></pre><div class=no-css></div><pre><samp>-0.827396</samp></pre><p>The only interesting thing is the need to define the precision you want in a local context. You can
+globally set the precision but that's probably not a good pattern given the precision heavily
+impacts the performance of the operations, though performance may not be as bad as you might expect.
+For example, the gmpy2 code above is only about 4 times slower than the floating point version of
+the same code.<h2><a id=rumps-example href=#rumps-example>Rump's Example</a></h2><p>While I'd like to take credit for finding the example I lead with, It's actually a fairly old
+example in the literature of floating point and interval research. It comes from Siegfried Rump in
+his paper,
+<a href=https://www.sciencedirect.com/science/article/pii/B9780125056304500122>Algorithms for Verified Inclusions: Theory and Practice</a>.
+Published in 1988, it's kind of dated at this point. It's noteworthy for the time because the IBM
+System/370 yields an incorrect answer that's stable even with more and more precision. Running the
+same calculation with different precisions is sometimes enough to determine if you've got a
+precision problem in your calculation. In this paper though Rump showed it would only result in what
+looked like a more and more precise incorrect answer.<p>Today the same equation shows precision instability because most computers use the
+<abbr title="Institute of Electrical and Electronics Engineers">IEEE</abbr> 754 floating point
+standard. You can still reproduce the result though using
+<a href="https://www.researchgate.net/publication/225180314_Rump's_Example_Revisited">a paper</a>
+published by Eugene Loh and G. William Walster of Sun Microsystems. They showed you can achieve the
+stable inaccuracy with common floating point sizes (32 bits, 64 bits, and 128 bits) with only a
+slight reformulation of the original equation.</p><math display="block"><mo>(</mo><mn>333.75</mn><mo>-</mo><msup><mi>x</mi><mn>2</mn></msup><mo>)</mo><msup><mi>y</mi><mn>6</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>(</mo><mn>11</mn><msup><mi>x</mi><mn>2</mn></msup><msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>121</mn><msup><mi>y</mi><mn>4</mn></msup><mo>-</mo><mn>2</mn><mo>)</mo><mo>+</mo><mn>5.5</mn><msup><mi>y</mi><mn>8</mn></msup><mo>+</mo><mfrac><mi>x</mi><mrow><mn>2</mn><mi>y</mi></mrow></mfrac></math><h2><a id=conclusions href=#conclusions>Conclusions</a></h2><p>If you don't remember that floating point numbers have a precision caveat, they will bite you (even
+in languages like Python, Matlab, and R). Libraries can help but still require things like manually
+picking a precision or the use of interval arithmetic. If you've never heard of unums, check them
+out. Mostly, I hope this has given you a deeper appreciation of the engineering trade-offs inherent
+in things even as fundamental as floating point numbers.<h2><a id=appx-1 href=#appx-1>Appendix 1: Showing My Work</a></h2><p>To show my work I could have taken the path of simplifying the equation algebraically. Instead, I've
+taken to brute force computation by parts to make it as easy as possible for you to follow along.
+This results in some crazy big numbers, but rest assured, you can plug each of the lines below into
+a calculator like WolframAlpha and follow along to triple check I'm not cheating. Let's start by
+spreading the equation out into a series of sums.</p><math display="block" class="math-left"><mtable columnalign="left" columnspacing=".5em" rowspacing="0"><mtr><mtd><mo>=</mo></mtd><mtd><mn>333.75</mn><msup><mi>y</mi><mn>6</mn></msup></mtd></mtr><mtr><mtd><mo>+</mo></mtd><mtd><msup><mi>x</mi><mn>2</mn></msup><mo>(</mo><mn>11</mn><msup><mi>x</mi><mn>2</mn></msup><msup><mi>y</mi><mn>2</mn></msup><mo>−</mo><msup><mi>y</mi><mn>6</mn></msup><mo>−</mo><mn>121</mn><msup><mi>y</mi><mn>4</mn></msup><mo>−</mo><mn>2</mn><mo>)</mo></mtd></mtr><mtr><mtd><mo>+</mo></mtd><mtd><mn>5.5</mn><msup><mi>y</mi><mn>8</mn></msup></mtd></mtr><mtr><mtd><mo>+</mo></mtd><mtd><mfrac><mi>x</mi><mrow><mn>2</mn><mi>y</mi></mrow></mfrac></mtd></mtr></mtable></math><p>Separate the whole numbers from their fractional component. Remember from algebra that we can
+combine the coefficients of like terms when adding. For example
+<math><mn>2</mn><mi>x</mi><mo>+</mo><mn>4</mn><mi>x</mi><mo>=</mo><mn>6</mn><mi>x</mi></math>.</p><math display="block" class="math-left"><mtable columnalign="left" columnspacing=".5em" rowspacing="0"><mtr><mtd><mo>=</mo></mtd><mtd><mn>333</mn><msup><mi>y</mi><mn>6</mn></msup></mtd></mtr><mtr><mtd><mo>+</mo></mtd><mtd><mn>0.75</mn><msup><mi>y</mi><mn>6</mn></msup></mtd></mtr><mtr><mtd><mo>+</mo></mtd><mtd><msup><mo>x</mo><mn>2</mn></msup><mo>(</mo><mn>11</mn><msup><mi>x</mi><mn>2</mn></msup><msup><mi>y</mi><mn>2</mn></msup><mo>−</mo><msup><mi>y</mi><mn>6</mn></msup><mo>−</mo><mn>121</mn><msup><mi>y</mi><mn>4</mn></msup><mo>−</mo><mn>2</mn><mo>)</mo></mtd></mtr><mtr><mtd><mo>+</mo></mtd><mtd><mn>5</mn><msup><mi>y</mi><mn>8</mn></msup></mtd></mtr><mtr><mtd><mo>+</mo></mtd><mtd><mn>0.5</mn><msup><mi>y</mi><mn>8</mn></msup></mtd></mtr><mtr><mtd><mo>+</mo></mtd><mtd><mfrac><mi>x</mi><mrow><mn>2</mn><mi>y</mi></mrow></mfrac></mtd></mtr></mtable></math><p>Let's rewrite the equation to give each of the parts we sum a new variable. This will help us keep
+track when we rearrange them in a later step.</p><math display="block" class="math-left"><mtable columnalign="left" columnspacing=".5em" rowspacing="0"><mtr><mtd/><mtd><mo>=</mo></mtd><mtd><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mi>c</mi><mo>+</mo><mi>d</mi><mo>+</mo><mi>e</mi><mo>+</mo><mi>f</mi></mtd></mtr><mtr><mtd><mi>a</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>333</mn><msup><mi>y</mi><mn>6</mn></msup></mtd></mtr><mtr><mtd><mi>b</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>0.75</mn><msup><mi>y</mi><mn>6</mn></msup></mtd></mtr><mtr><mtd><mi>c</mi></mtd><mtd><mo>=</mo></mtd><mtd><msup><mo>x</mo><mn>2</mn></msup><mo>(</mo><mn>11</mn><msup><mi>x</mi><mn>2</mn></msup><msup><mi>y</mi><mn>2</mn></msup><mo>−</mo><msup><mi>y</mi><mn>6</mn></msup><mo>−</mo><mn>121</mn><msup><mi>y</mi><mn>4</mn></msup><mo>−</mo><mn>2</mn><mo>)</mo></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>5</mn><msup><mi>y</mi><mn>8</mn></msup></mtd></mtr><mtr><mtd><mi>e</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>0.5</mn><msup><mi>y</mi><mn>8</mn></msup></mtd></mtr><mtr><mtd><mi>f</mi></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mi>x</mi><mrow><mn>2</mn><mi>y</mi></mrow></mfrac></mtd></mtr></mtable></math><p>Now we compute each of these parts. You can do this in WolframAlpha if you're following along. Just
+be sure to keep all the precision you can. I truncated <span class=math>f</span> to a few decimals
+just to keep the math a bit shorter when it's all lined up.</p><math display="block" class="math-left"><mtable columnalign="left" columnspacing=".5em"><mtr><mtd/><mtd><mo>=</mo></mtd><mtd><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mi>c</mi><mo>+</mo><mi>d</mi><mo>+</mo><mi>e</mi><mo>+</mo><mi>f</mi></mtd></mtr><mtr><mtd><mi>a</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>437620119945614750330859552768</mn></mtd></mtr><mtr><mtd><mi>b</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>985630900778411599844278272</mn></mtd></mtr><mtr><mtd><mi>c</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>−7917111779274712207494296632228773890</mn></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>7197373946062692146455577001386311680</mn></mtd></mtr><mtr><mtd><mi>e</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>719737394606269214645557700138631168</mn></mtd></mtr><mtr><mtd><mi>f</mi></mtd><mtd><mo>≈</mo></mtd><mtd><mn>1.172604</mn></mtd></mtr></mtable></math><p>That's basically it. Now rearrange and add them up.</p><math display="block" id="sum"><mtable columnalign="right" columnspacing=".5em" rowspacing="0"><mtr><mtd><mi>c</mi></mtd><mtd/><mtd><mn>−7917111779274712207494296632228773890</mn><mphantom><mn>.000000</mn></mphantom></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mo>+</mo></mtd><mtd><mn> 7197373946062692146455577001386311680</mn><mphantom><mn>.000000</mn></mphantom></mtd></mtr><mtr><mtd/><mtd/><mtd><mn> −719737833212020061038719630842462210</mn><mphantom><mn>.000000</mn></mphantom></mtd></mtr><mtr><mtd><mi>e</mi></mtd><mtd><mo>+</mo></mtd><mtd><mn> 719737394606269214645557700138631168</mn><mphantom><mn>.000000</mn></mphantom></mtd></mtr><mtr><mtd/><mtd/><mtd><mn> −438605750846393161930703831042</mn><mphantom><mn>.000000</mn></mphantom></mtd></mtr><mtr><mtd><mi>a</mi></mtd><mtd><mo>+</mo></mtd><mtd><mn> 437620119945614750330859552768</mn><mphantom><mn>.000000</mn></mphantom></mtd></mtr><mtr><mtd/><mtd/><mtd><mn> −985630900778411599844278274</mn><mphantom><mn>.000000</mn></mphantom></mtd></mtr><mtr><mtd><mi>b</mi></mtd><mtd><mo>+</mo></mtd><mtd><mn> 985630900778411599844278272</mn><mphantom><mn>.000000</mn></mphantom></mtd></mtr><mtr><mtd/><mtd/><mtd><mn> −2</mn><mphantom><mn>.000000</mn></mphantom></mtd></mtr><mtr><mtd><mi>f</mi></mtd><mtd><mo>+</mo></mtd><mtd><mn> 1.172604</mn><mphantom><mn></mn></mphantom></mtd></mtr><mtr><mtd/><mtd/><mtd><mn> −0.827396</mn><mphantom><mn></mn></mphantom></mtd></mtr></mtable></math></article></main>

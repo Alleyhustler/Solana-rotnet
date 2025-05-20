@@ -1,0 +1,1 @@
+"use strict";(()=>{if(Math.random()<.99)return;const t=document.currentScript.src,n=t.lastIndexOf("/"),s=t.substring(0,n),o=$(`<link rel="stylesheet" href="${s}/egg.css">`);$("head").appendChild(o);let e=$('<button id="egg" type="button">🌈</button>');e.onclick=()=>{$("main").classList.add("egg"),e.remove()},$("main").appendChild(e)})()

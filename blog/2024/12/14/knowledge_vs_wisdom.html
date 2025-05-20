@@ -1,0 +1,56 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2024/12/14/knowledge_vs_wisdom by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:21 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2024/12/14/knowledge_vs_wisdom.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><script src=../../../../tag/egg.js defer></script><title>Knowledge vs. Wisdom</title>
+<meta name=author content="Keller"><meta name=description content="The wise programmer is unafraid to seem novice."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Knowledge <abbr title=versus>vs.</abbr> Wisdom</h1><figure><div class=no-css></div><img src=graph_2d.svg alt="Unlabelled graph showing a function that starts at 0, charts an arc to some value before returning to zero on the right of the graph. On top, another function starts at 0 and charts something like a square root function rising a little faster than the arc, ending even higher but such that it begins to plateau in the right of the graph." loading=lazy height=222 width=466><div class=no-css></div></figure><p>There's a fairly predictable phenomenon in a software developer's career. It illustrates the
+difference between knowledge and wisdom.<p>When everyone starts learning to code, we all start by writing very simple code. You have to. You
+have a problem that requires you to transform the data in some way, and you're not sure how to do
+it. You're forced to learn how others would do it, given the tools you're using. This directly
+limits the complexity of the techniques you can bring to the problem because you have to understand
+the solution first. As a result, you end up implementing an easy to understand, straightforward
+solution in steps to get from input to output.<p>The problem with the beginner's most direct procedural approach is that as the lines of code grow,
+so does the number of incidental variables. Data begins to loop back through the code. A variable
+defined up here is used in a few places and then later used way down there. It becomes harder and
+harder to tell at a glance what the value of some data is at any given point in the code. You don't
+know what simplifications or generalizations you could use.<p>As you program more and work on larger projects, you find incentives to study more software theory.
+You start to learn opinions about how other people have found the best way to solve their problems,
+presented as if they're the right way to solve problems in all contexts. You learn techniques for
+simplifying code by decomposing it, by dynamically dispatching it, by templating it, by imposing
+real-world analogies on it. You learn to use tools that require you to understand the world through
+their implementation details and internalize their design philosophies. Interviewing for jobs forces
+you to practice competitive programming problems that require you to memorize and implement clever
+solutions to problems. You will study algorithms and data structures and learn theoretical modeling
+of performance limits (big-O).<p>As you discover and learn about these new hammers, nails pop up around every problem. The explainer
+promised these would improve the code after all. You start breaking code into pieces based on
+preconceptions. You apply patterns and structures to things in advance, trying to lay the
+groundwork. Maybe a system sounds like this fancy data structure you recently read about. What if we
+imagine the problem as if it fits that data model? It's close enough. That would make the system
+really simple and generic. Maybe we model it using classes, like it's done by a group of nouns. We
+can even specialize some of them to reuse functionality.<p>Sometimes these patterns really do make some code easier to think about and maintain. But every time
+you add them, you add more to the problem. Later, everyone will have to understand the structure you
+have imposed on the problem in order to work on it. Right now, you fully understand the code, so it
+all looks good to you. You know the context and the conventions for now.<p>Then, because this is software, the code seems to work well to you, but others find bugs. You have
+to fix them, and you come face to face with Kernighan's Lever. You discover that your event loop
+function dispatcher means that your debugger can't follow the stack trace. You now have to spend a
+lot more time trying to figure out what code called this code and corrupted this data. You no longer
+have a few of these classes, but hundreds with weird inheritance hierarchies as others extended what
+was there more and more as the model became less and less like reality. The data structure didn't
+really handle all the problems, so now a few other auxiliary data structures are maintained in
+parallel. This negates all the performance you didn't actually get, because it turns out your
+average dataset isn't big enough to outweigh the overhead of the more complex algorithm.<p>This is where wisdom comes from. Practice and theory are exactly the same in theory. Reality has a
+way of kicking you when you're down. When a programmer has finally reached enlightenment, they begin
+to dream of the days when code was simple. When you could find bugs just by walking through the
+code. They start thinking about things like how hard it's going to be to find the code in the future
+when they want to change it. You start to strive for simplicity, to learn from the beginner. A
+simplicity so simple that no one knows how hairy it can be. They firmly believe that they should
+struggle so that no one else has to, and they strive to be as direct and easy to understand as
+possible. Even if it means building something extra to get it right.<p>That is, if they have a small ego. Some think that any developer who isn't on their level is
+unworthy. They think they need to be as clever as possible in order to grow as a developer. That
+developer prowess is measured by the amount of complexity one can work on. They think that
+understanding the code is a right of passage. They are afraid of not having experience with every
+passing fad, of not appearing modern by using it in their project. Once everyone else sees how
+wonderful this new thing they've just learned is, everyone will rewrite all the existing code to do
+it that way anyway.<figure><div class=no-css></div><img src=graph_3d.svg alt="3D graph from the 2D graph at the start charting experience and ego against how clever the code is. The low ego experience follows an arc while the high ego follows something like a square root function." loading=lazy height=428 width=653><div class=no-css></div></figure><p>The wise programmer is unafraid to seem novice.</article></main>

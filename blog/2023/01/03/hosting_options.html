@@ -1,0 +1,174 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2023/01/03/hosting_options by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:24 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2023/01/03/hosting_options.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=stylesheet href=style.css><script src=../../../../tag/egg.js defer></script><title>Hosting Options</title>
+<meta name=author content="Keller"><meta name=description content="A taxonomy and pros/cons list for various website hosting methods in 2023."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Hosting Options</h1><p>There are many ways to host a website these days—web app if you prefer. It's kind of fun to go
+through and compare the ways you can do it. You may have never really considered all the options
+before or found it overwhelming. Some people seem to think that
+<abbr title="Amazon Web Services">AWS</abbr> is the only option. As always, I'd like you to take
+some time to more deeply consider what you're doing.<p>Hardware is always a foundational consideration in a software project, even if you're only renting
+it. If you've never really thought about the range of target platforms you intend to support, that's
+why it tends to only work on your machine. You implicitly wrote it to do that. Depending on what
+platform you choose to target, you can be signing up for a considerable rewrite if you later need to
+change it. You cannot future proof, but having no other option is a recipe for a vendor to take
+advantage of the situation once you're stuck.<p>There's likely an option or two you consider not covered in this post, but these should cover the
+bases as far as I see them. Obviously I'm having to lump together many competitors, each with their
+own unique offerings to paint fairly broad strokes. Many companies have a number of offerings that
+cross this taxonomy in an effort to target multiple markets. Similarly, I'm writing this at the
+beginning of 2023. It's possible a new platform will emerge in the coming years. Something like
+<abbr title="Internet of Things">IoT</abbr> swarm overlays, alt-web based backends, or some
+distributed protocol that provides significant cost, market, or performance benefits to make a
+compelling alternative.<p>Also remember that context is always key. There's no right or wrong, but there's definitely trade
+offs. Remember that any choice you make is a trade off and design is the process of making choices.
+If you're creating something for you and your friends that's going to entail completely different
+constraints than if you're considering the funding allocation for projects at your Fortune 500
+company. Trying to do what an organization ten times your size does is a way to stretch your
+resources paper thin. Likewise trying to do what one a tenth your size does is going to create a
+great deal of resource contention which will bog you down. You always have to pick the best choices
+given the context you actually have, not the one you wish you had.<h2><a id=home-server href=#home-server>Home Server</a></h2><p>A home server is what it sounds like. Just host your site on your own computer. This is how the
+internet and web was conceptualized. Despite what you may think, there's nothing special about your
+favourite websites. They're just computers with an internet connection. You have a computer and an
+internet connection.<p>I guess it's possible with appliance computers you could be reading this on a computer you don't
+really own (your <abbr title=Television>TV</abbr>, gaming console,
+<abbr title="et cetera; and so forth">etc.</abbr>). If you're reading this on your phone, you likely
+have a computer though. I guess you could be reading a printed version of this article… Okay, I'm
+only 95% sure you have a computer and an internet connection, but assuming you do, this may be the
+solution for you.<p>Some examples of this type of hosting include:<ul><li>a <a href=https://www.raspberrypi.com/>Raspberry Pi</a>,<li><a href=https://www.wampserver.com/en/download-wampserver-64bits/><abbr title="Windows, Apache, MySQL, and PHP">WAMP</abbr></a> on Windows,<li><a href=https://wiki.termux.com/wiki/Termux-services>Termux</a> on Android,<li><a href=https://github.com/timdreier/ish-webserver-setup>iSH</a> on iPhone,<li><a href=https://openwrt.org/docs/guide-user/services/start>OpenWrt</a> on your router, or<li>literally any old computer you own.</ul><div class=row><div class=col><h3><a id=home-server-pros href=#home-server-pros>Pros</a></h3><ul><li>It's basically free! Well, you already paid for the computer and internet. Power costs extra,
+but that doesn't have to be a lot if you're computing efficiently on somewhat modern hardware.<li>Your own computers are screaming fast compared to what you can rent from a vendor. Even a
+raspberry pi beats many of the low to mid tier
+<abbr title="Virtual Private Server">VPS</abbr>.<li>Typical hardware lifetimes are 10 years for desktops, 5 years for laptops, and 3 years for
+phones. Most server rentals are priced to break even for the company in only a year or two.<li>The typical cost comparison for rentals assumes you're spending a lot of money on salaries
+that go away when you rent. Is this true for you?<li>You've got complete control of the server. No worries about someone at your vendor accessing
+it. Take a hammer to it if it goes rogue.<li>If you don't plan on doing anything else with it, you don't have to worry about tenant
+performance impacts.<li>Home servers are kind of a nerd credential because you'll learn more than you probably want to
+about how all this stuff works. Most of that knowledge transfers because vendors are generally
+just automating some of this stuff for you.</ul></div><div class=col><h3><a id=home-server-cons href=#home-server-cons>Cons</a></h3><ul><li>Your upstream bandwidth is probably slow compared to what you can rent.<li>Heavy network usage in your house impacts the site (can be mitigated with
+<abbr title="Quality of Service">QoS</abbr>).<li>You have to run the hosting computer
+<abbr title="24 hours a day, 7 days a week">24/7</abbr>. That could mean
+investing in a <abbr title="Uninterruptible Power Supply">UPS</abbr> or other
+redundancy.<li>You have to overcome <abbr title="Network Address Translation">NAT</abbr> and
+<abbr title="Dynamic Host Configuration Protocol">DHCP</abbr>.<li>You usually can't change the reverse <abbr title="Domain Name System">DNS</abbr>
+for your <abbr title="Internet Protocol">IP</abbr>.<li>Some <abbr title="Internet Service Providers">ISPs</abbr> block traffic on certain
+ports.<li>If you plan on doing other things with this computer, you'll be impacting site performance.<li>If an attacker gains access to your site, they are now on your home network and have access to
+whatever else is running and stored on that machine.<li>If someone wants to <abbr title="Distributed Denial of Service">DDoS</abbr> your
+site, they also target your home internet (and that may make your
+<abbr title="Internet Service Provider">ISP</abbr> mad).<li>It's a lot of up front work. Some software packages can simplify this, but then you depend on
+that software.</ul></div></div><h2><a id=shared-server href=#shared-server>Shared Server</a></h2><p>The shared server is our first stop on the road through rented hardware. A shared server is what it
+sounds like. You and a bunch of other people all put your stuff on the same server. There are many
+ways to do this. The most obvious is what's typically referred to as web hosting.<p>The features of a shared server vary widely, but generally allow you to host files
+(<abbr title="Hypertext Markup Language">HTML</abbr>,
+<abbr title="Cascading Style Sheets">CSS</abbr>, <abbr title=JavaScript>JS</abbr>, images,
+<abbr title="et cetera; and so forth">etc.</abbr>) and have them served at some sort of web
+<abbr title="Uniform Resource Locator">URL</abbr>. From there, more and more features can be added
+(often for more money) including the ability to run backend code (like
+<abbr title="PHP: Hypertext Preprocessor">PHP</abbr>,
+<abbr title="Common Gateway Interface">CGI</abbr>, daemons,
+<abbr title="et cetera; and so forth">etc.</abbr>), point your own domain at the server, and even
+store data in a managed database or file system.<p>Some examples of this type of hosting include:<ul><li><a href=https://pages.github.com/>GitHub Pages</a>,<li><a href=https://neocities.org/>NeoCities</a>,<li><a href="https://wiki.sdf.org/doku.php?id=building_a_website_on_sdf"><abbr title="Super Dimension Fortress">SDF</abbr> Unix</a>,<li><a href=https://tilde.club/>Tilde Club</a>,<li><a href=https://www.squarespace.com/>Squarespace</a>,<li><a href=https://www.hostinger.com/>Hostinger</a>,<li><a href=https://www.hostgator.com/>HostGator</a>, or<li>just your friend's server.</ul><div class=row><div class=col><h3><a id=shared-server-pros href=#shared-server-pros>Pros</a></h3><ul><li>Can be free or relatively inexpensive.<li>Requires low technical expertise up front.<li>It's completely isolated from you and your network.<li>Hosting is often super reliable. Put your files up and the rest is taken care of.<li>Many providers try to foster a community among fellow tenants to encourage network effects.
+You can use this to learn from and teach each other.<li>If you're paying, your terms of service may come with technical support.<li>Can be a fairly low moderation and anonymous way to publish your thoughts and ideas.</ul></div><div class=col><h3><a id=shared-server-cons href=#shared-server-cons>Cons</a></h3><ul><li>You get what you pay for. You have to figure out who's paying if you're not.<li>Often limits the types of files you can serve.<li>Using your own domain is rarely free.<li>It's likely you'll have wild performance swings depending on who else is doing what else on
+the server.<li>You usually can't install your own software. If they don't have it, you may be able to request
+it or you'll just have to deal. Same goes for updates.<li>You may have limited access to run code on the server (no port binding, limited
+<abbr title="Central Processing Unit">CPU</abbr> process lifetimes,
+<abbr title="et cetera; and so forth">etc.</abbr>).<li>Implications of a security breach from another tenant are hard to generalize and depend a lot
+on the particulars of the service.<li>If you use too much bandwidth, compute, or storage expect your provider to cut you off (even
+if that's not explicitly stated).<li>Your provider has complete access to whatever you put there (including things you store in
+their database). This can have implications for some privacy legislation in your jurisdiction.</ul></div></div><h2><a id=virtual-private-server href=#virtual-private-server>Virtual Private Server</a></h2><p>A virtual private server (<abbr title="Virtual Private Server">VPS</abbr>) is sort of the step up
+from shared servers. In this setup, instead of everyone sharing the server by way of an operating
+system (or shared serving infrastructure), the provider installs a hypervisor and tenants get a
+virtual machine to run their own operating systems. You get to reserve whatever resources you want
+to pay for (virtual <abbr title="Central Processing Unit">CPU</abbr>s, memory, disk,
+<abbr title="et cetera; and so forth">etc.</abbr>), and it sort of looks and feels like you have
+your own machine.<p>Some examples of this type of hosting include:<ul><li><a href=https://www.linode.com/>Linode</a>,<li><a href=https://www.digitalocean.com/>Digital Ocean</a>,<li><a href=https://www.lunanode.com/>LunaNode</a><li><a href=https://www.ovhcloud.com/en/>OVH</a>, and<li>many, many, many more. Honestly, do your research.</ul><div class=row><div class=col><h3><a id=vps-pros href=#vps-pros>Pros</a></h3><ul><li>There are thousands of <abbr title="Virtual Private Server">VPS</abbr> providers
+and you can super easily switch between them.<li>You can host all around the world (for legal or latency reasons).<li>Besides the whole website based serial console thing, it's about as close to your own server
+in a data centre as you can get at this price point.<li>Some providers let you setup reverse <abbr title="Domain Name System">DNS</abbr>
+for the <abbr title="Internet Protocol">IP</abbr> addresses you rent.<li>You can technically host your own email server if you want, though I can't say I recommend
+doing this anymore.<li>It's possible to go full infra-as-code if you want because most
+<abbr title="Virtual Private Server">VPS</abbr> providers have
+<abbr title="Application Programming Interfaces">APIs</abbr> for resource
+management (again, do your research here).<li>Providers give you an <abbr title="Operating System">OS</abbr> install image so
+you don't have to worry about setting that up too much.<li>You can often add full system backups with just a couple clicks and a bit more money a month.<li>Some providers even rent managed hardware if you really want great performance isolation.<li>Most out of the box software will work on a
+<abbr title="Virtual Private Server">VPS</abbr>.</ul></div><div class=col><h3><a id=vps-cons href=#vps-cons>Cons</a></h3><ul><li>It's another monthly lease to pay.<li>It's not your own server. Someone else always has access to it.<li>You may experience performance isolation problems from other tenants on the machine.<li>Whenever the provider decides to do maintenance or has issues, you also have maintenance or
+issues.<li>If you want full infra-as-code, you're likely going to have to do a bunch of leg work
+depending on how popular your provider is among open source contributions.<li>This many competitors means there's a lot of variance in service quality and picking a good
+one is tough.<li>You're essentially limited to whatever operating systems they support.</ul></div></div><h2><a id=platform-as-a-service href=#platform-as-a-service>Platform as a Service</a></h2><p>Platform as a Service (<abbr title="Platform as a Service">PaaS</abbr>) is where I'm going to lump
+many different but related offerings. A <abbr title="Platform as a Service">PaaS</abbr> is
+essentially a speed versus flexibility trade off. The elevator pitch is that every website does a
+whole ordeal of the same sorts of things under the hood. There's
+<abbr title="Uniform Resource Locator">URL</abbr> routing, static files, executing code for dynamic
+content, logging, alerting, request tracing, <abbr title="Create, Read, Update, Delete">CRUD</abbr>
+operations on persistent data, remote administration, auditing, backups, source code deployments,
+production issue tracking, usage based scaling, hardware fault mitigations,
+<abbr title="et cetera; and so forth">etc.</abbr>.<p>What if we built a single integrated solution that did all of that out of the box? It does it one
+way, and so long as you agree to how it does these things, you don't have to design or build any of
+it. Biologically speaking, it's an application of niche adaptation. By being really good at what it
+competes in, it can compete much more aggressively than a less well adapted competitor. Conversely,
+if you need to do something it's less well adapted to, it's going to be a struggle.<p>Some examples of this type of hosting include:<ul><li><a href=https://www.heroku.com/>Heroku</a>,<li><a href=https://www.mendix.com/>Mendix</a>,<li><a href=https://workers.cloudflare.com/>Cloudflare Workers</a>,<li><a href=https://aws.amazon.com/lambda/><abbr title="Amazon Web Services">AWS</abbr> Lambda</a>, and<li><a href=https://cloud.google.com/appengine/>Google App Engine</a>.</ul><div class=row><div class=col><h3><a id=paas-pros href=#paas-pros>Pros</a></h3><ul><li>You don't need to administer a server.<li>Horizontal scaling is usually baked in.<li>The scale of hardware failures you need to worry about are usually at the natural disaster
+level.<li>It can be quite cheap if nobody's using your stuff because often these platforms scale to zero
+if nobody's using you. Some even come with a free tier you have to cross before they start
+costing you.<li>Infra-as-code is essentially expected, but also probably fairly well automated given tools
+available from the provider. Some even have authoring tools built in to further reduce the
+amount of code you need.<li>You often get all the logging, monitoring, access, backup, debugging, and management you need
+right out of the box.<li>If your expected use matches the platform's design, it can be much faster to get from research
+and development into production with a
+<abbr title="Platform as a Service">PaaS</abbr>.</ul></div><div class=col><h3><a id=paas-cons href=#paas-cons>Cons</a></h3><ul><li>There are few providers in this space.<li>It's much more expensive per unit work than a dedicated server.<li>You are likely to end up depending on platform specific behaviour and that's called lock-in.<li>You usually can't run off the shelf software on them.<li>They often impose a higher latency than dedicated servers.<li>Databases often cost extra.<li>Usage based billing is a double edged sword. If your customers are also usage based billed,
+it's just a marginal cost. If you have a different business model it can mean your doom if
+your biggest users aren't your biggest paying.</ul></div></div><h2><a id=cloud href=#cloud>Cloud</a></h2><p>The cloud is the buzzword for companies that keep building evermore solutions you can rent to solve
+your technology research and development problems. Thanks to massive marketing spend to acquire new
+customers, they're also the companies you've probably heard the most about. Incremental spending on
+cloud resources is so frictionless that the core driver of growth tends to be the cost to onboard
+new users.<p>What's the point of choosing a cloud? Integration. A cloud company's core competency is integrating
+each solution they provide to make it trivial to leverage them when building your product. They make
+more money the more you use their offerings. Unlike a pure
+<abbr title="Platform as a Service">PaaS</abbr> offering though, they want you to feel as little
+friction adopting them as possible. You can rent a <abbr title="Virtual Private Server">VPS</abbr>
+from them. You can host any off the shelf software with them. They just also provide lock-in
+opportunities if you decide you want them.<p>I'm mostly being harsh here because of their popularity. You should know though that companies not
+thinking clearly can end up with insanely high <abbr title="Cost of Goods Sold">COGS</abbr> for
+their software thanks entirely to cloud spend. Cloud vendors aren't deceptive in their costs
+(they're clearly published), but they're also conveniently far from sight when creating new
+resources so you never have to think about the bottom line impact of your decisions until you get a
+really nasty bill and reflect on how deeply reliant all your work is on those costs.<p>Some examples of this type of hosting include:<ul><li><a href=https://aws.amazon.com/>Amazon Web Services (<abbr title="Amazon Web Services">AWS</abbr>)</a>,<li><a href=https://cloud.google.com/>Google Cloud Platform (<abbr title="Google Cloud Platform">GCP</abbr>)</a>,<li><a href=https://azure.microsoft.com/en-us/>Microsoft Azure</a>,<li><a href=https://cloud.ibm.com/login><abbr title="International Business Machines">IBM</abbr> Cloud</a>, and<li><a href=https://www.oracle.com/cloud/>Oracle Cloud</a>.</ul><div class=row><div class=col><h3><a id=cloud-pros href=#cloud-pros>Pros</a></h3><ul><li>They're essentially name brand <abbr title="Virtual Private Server">VPS</abbr> and
+<abbr title="Platform as a Service">PaaS</abbr> all in one.<li>The biggest are unlikely to go bankrupt in the next couple decades.<li>It provides some experience working with the cloud management interfaces (if you worry about
+that).<li>You can use some of the <abbr title="Platform as a Service">PaaS</abbr> and
+<abbr title="Software as a Service">SaaS</abbr> offerings of the cloud as needed
+and practical.<li>There are often free tiers for a lot of things.<li>They're always adding new technologies you may find useful.<li>Everyone else is doing it, so there are many third party resources.<li>The cloud is usually your best value for money if you have extremely bursty workloads.</ul></div><div class=col><h3><a id=cloud-cons href=#cloud-cons>Cons</a></h3><ul><li>The money foot gun is real and you have to be careful.<li>They nickel and dime you for everything (storage, bandwidth,
+<abbr title="Application Programming Interface">API</abbr> operations,
+<abbr title="et cetera; and so forth">etc.</abbr>).<li>It's sort of a cannon to kill a fly at times.<li>They're most interested in large companies (or companies that will likely get big) and cater
+to their complex needs. If that's not you, there's going to be an impedance mismatch.<li>Clouds are complex on the whole and can take a significant amount of time to learn with
+limited utility outside of the cloud ecosystem.<li>If you just want to rent <abbr title="Virtual Private Server">VPS</abbr> and use
+a message queue, database, storage
+<abbr title="Application Programming Interface">API</abbr>, and
+<abbr title="Content Delivery Network">CDN</abbr> you can almost always do that
+for a lot less using individual specialized competitors. Cloud resources generally cost more.<li>Their hardware costs are fixed whether they have tenants or not. They amortize bursty work to
+those who have reliable load to cover for all the time the burst machines sit idle.</ul></div></div><h2><a id=colocation href=#colocation>Colocation</a></h2><p>A colo is where you pay to rent space in a data centre. You co-locate your hardware alongside
+others. You're not renting hardware, you're renting space. You buy and bring your own hardware then
+pay your power and internet bills. This rental could be in many forms from subleasing to a direct
+rental with the data centre. Costs range from the mundane to the moon (I mean, you could rent an
+entire data centre if you want), but a minimal setup can be as little as a few hundred up front (for
+a server) and then one hundred or so a month if you don't need a lot.<p>Honestly, I think it'd be kind of cool to get together a group of friends or colleagues to run a
+sort of colo-coop near me to share costs and experience.<p>I'd give some examples of this type of hosting, but it's really going to depend on where you live or
+want to host. These are physical buildings and location is important. It'd be like me listing which
+apartment buildings you can rent in.<div class=row><div class=col><h3><a id=colo-pros href=#colo-pros>Pros</a></h3><ul><li>You want some experience, look no further. Forget nerd credentials, put this on your résumé.<li>You can buy a screaming fast machine and it's yours to keep.<li>There are few performance isolation worries in a data centre on your own dedicated hardware.<li>Some colo providers offer hardware-as-a-service, sometimes with lease-to-own agreements so
+they can amortize the up front cost for you.<li>You can often sublease as little as 1<abbr title="rack unit">U</abbr> of space
+for somewhere between $50 to $250 per month (depending on location and facilities), with whole
+racks ~40 times the size usually only ~10 times the price.<li>Second hand server hardware can be pretty cheap (a few hundred dollars).<li>Security is one of a data centre's core competencies.
+<abbr title="24 hours a day, 7 days a week">24/7</abbr> video surveillance, a
+perimeter fence, key card access, biometric authentication, mantraps, and many more security
+features often come standard.<li>The main benefit of a colo is the ability to connect directly to
+<abbr title="Internet Service Providers">ISPs</abbr> and internet exchanges.
+Gigabit is sort of the ground floor with options for
+10<abbr title="Gigabites Per Second">Gbps</abbr>,
+25<abbr title="Gigabites Per Second">Gbps</abbr>,
+40<abbr title="Gigabites Per Second">Gbps</abbr>,
+and more.<li>Latency can also be extremely low if you're in the same building as a desirable peer for your
+needs.<li>You can usually contract on site technical support from companies near or in the facility if
+that makes sense given your situation.</ul></div><div class=col><h3><a id=colo-cons href=#colo-cons>Cons</a></h3><ul><li>It's not cheap. You want a good day job or more likely a business the hardware's supporting.<li>You will need to buy servers designed for rack mounting.<li>If something goes wrong, you need to travel to the data centre. You'll also need to go setup
+your equipment (for the first little bit, expect to travel until it stabilizes).<li>You'll want backup parts for your server and to buy strategically to avoid systematic failures
+(two of the same part tend to fail at the same time).<li>You'll have to learn to handle 95th percentile billing.<li>If a cloud was a canon to kill a fly, this is an orbital space laser.<li>Many of the same things you need to learn for a home server apply here, possibly with more
+knowledge of routing and networking depending on your interconnect arrangement.<li>You're going to have to sign a lease agreement.<li>Location, location, location. Data centres face all the same issues any real estate does.
+Great locations cost more.</ul></div></div><h2><a id=conclusion href=#conclusion>Conclusion</a></h2><p>No great insights. Just a bunch of options on the market and a number of metrics to evaluate them
+against in order to help you find what fits your situation. Choose wisely because your choices
+matter.</article></main>

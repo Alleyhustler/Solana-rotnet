@@ -1,0 +1,120 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2022/02/22/tech_debt_is_silly by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:25 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2022/02/22/tech_debt_is_silly.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><script src=../../../../tag/egg.js defer></script><title>Tech Debt is Silly</title>
+<meta name=author content="Keller"><meta name=description content="The metaphor of technical debt is not only barely helpful to explain the concept, it actively misleads non-technical people. We need a different metaphor."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Tech Debt is Silly</h1><p>A lot of developers bandy about the metaphor of technical debt like it's a real thing. This in turn
+leads to some serious problems in communication. Never forget that <q>tech debt</q> is a metaphor.
+Its goal is to provide some sort of analogy for a thing someone else doesn't understand. If you
+cargo cult a metaphor and keep repeating it all the time, the metaphor replaces the real thing in
+the audience's head.<p>Physicists deal with this all the time when dealing with invisible forces. Electricity is water in a
+pipe. Uncertainty is a cat in a box. Electrons spin like little billiard balls (and have up and down
+spins, funny that). These and many like them are just metaphors for real mathematical equations
+describing observed phenomena. But metaphors get treated like ground truth in people's heads if they
+never really learn what lies behind them. Spoiler alert, your non-technical colleagues will likely
+never understand software development like you do. So repeating a metaphor is going to make your
+life harder than it already is. Especially if you choose a poor metaphor.<h2><a id=comparing-real-debt-to-tech-debt href=#comparing-real-debt-to-tech-debt>Comparing Real Debt to Tech Debt</a></h2><p>Why is it a bad metaphor? What makes a good metaphor? A metaphor allows someone to link a new
+concept to existing understanding by leveraging what they already understand to make assumptions
+about this unfamiliar concept. Notice how that is a double edged deal. If someone's got a lay
+understanding, this may work, but it often breaks down fast if the person really understands the
+other concept.<p>A good metaphor then would be one that goes far on that understanding before breaking down. Tech
+debt does not. Tech debt almost immediately doesn't work the same as real debt. It only barely holds
+if your understanding of debt is that, <q>debt is bad,</q> and that you can sometimes say we don't
+have time and move on with the assumption that you'll, <q>pay it back later.</q> So, let's examine
+how debt works and how tech debt just doesn't. Here's a couple totally normal debt related things
+that just don't map.<h3><a id=whats-the-roi-for-tech-debt href=#whats-the-roi-for-tech-debt>What's The <abbr title="Return on Investment">ROI</abbr> For Tech Debt?</a></h3><p>When a non-technical person thinks about debt, that immediately means it has a value. Sure a value
+with amortized cost, but it implies that I can sign on for a bunch of this debt and just have the
+company pay it back in the future. Yeah, business thinking people do really consider debt this way.
+Debt is a way to race against return on investment and accelerate profits. The problem is these
+people are not accountants. It's the bean counters job to track whether or not we can actually repay
+these obligations. Debt is free money subject to accounting review.<p>This immediately runs into problems with tech debt. What's the value of this debt? I don't have a
+metric to give it a debt to dollars conversion, do you? What even is a tech debt unit? How do we
+quantify it? If we're going to use the language of finance to talk about developing software you
+better believe there needs to be hard numbers involved.<h3><a id=hows-the-interest-rate href=#hows-the-interest-rate>How's The Interest Rate?</a></h3><p>Similarly, what's the interest rate on this debt? We haven't quantified what a debt unit is, how can
+we calculate the cost of the time sink it's becoming and track it over time? Does this cost
+increase? Is it linear, exponential, or constant? How does interest fluctuate? How does interest
+impact yield? Interest rates are a core concept to debt but make no sense at all to technical debt.
+There's no obvious comparison. Well, there is one…<p>Don't even mention bit rot. Is that different than tech debt? How is rotting related to debt?
+They're completely different balance sheet items. How do digital items decay anyway? I thought only
+analogue goods could. See, this simplifies nothing and is really a stretch. It's also got a
+completely different name. I mean, bit rot's also a bad metaphor, but that's not this article.<p>Notice how a bad metaphor not only links incorrect assumptions to the concept, but also makes it
+harder to link related concepts to the poor metaphor.<h3><a id=were-either-solvent-or-bankrupt href=#were-either-solvent-or-bankrupt>We're Either Solvent or Bankrupt</a></h3><p>Another problem with tech debt is that it implies solvency. There are higher and lower debt loads,
+but as long as you keep meeting payments, you're fine. It eats into profits, but the accountants
+already did the math. The debt is fine because we're likely going to make more with it than without
+it. Even with a lower than projected revenue we'll have no problem paying these obligations.<p>Developers aren't making these same calculated trade-offs. We still don't have a unit for this
+imaginary debt. Who's tracking if we're about to bankrupt the company by failing to meet contractual
+obligations or by delivering insecure software leading to litigation? How can you express the debt
+load? It's high because I feel like it's high? If an accountant tried that they'd be laughed out of
+the room. If we chose financial language to describe a complexity problem, don't be surprised when
+financial analysis is what people reach for to understand the problem.<p>Quick, name drop a refactor like anyone understands that and walk away.<h3><a id=bankruptcy href=#bankruptcy>Bankruptcy</a></h3><p>So you've let it snowball into full blown ball of mud and the company's technologically bust. What
+do you do? Well assuming the company isn't actually bankrupt because of your poor decisions, it's
+laying off many of those responsible and starting a rewrite. Yeah, rewrites turn out to be something
+you can sort of indefinitely put off. Sure it takes days to do even basic things and we're now
+losing a developer every other week, but that's not my problem as a non-developer. What on earth is
+institutional knowledge? You'd better be documenting things down there in product development!<p>See, you're flying blind. You have no idea if you're about to bankrupt the company for failure to
+meet contractual obligations. You've no idea if a competitor is about to launch a killer design that
+you simply cannot pivot in time to counteroffer. There's no risk profile that a dev is about to add
+an authentication bypass to your product because there's 4 different legacy authentication
+<abbr title="Application Programming Interfaces">APIs</abbr> and they'll pick the wrong one for the
+job.<p>If you cannot measure it, you cannot manage it.<h2><a id=the-job-shop-and-cleanliness href=#the-job-shop-and-cleanliness>The Job Shop and Cleanliness</a></h2><p>So debt barely works. What are we really trying to capture? It's the need to periodically rewrite
+small chunks of the software to take advantage of what you've learned about it and what it'll need
+to most likely do going forward. It's replacing 40 copy pasted chunks of code with a single
+function. It's going back to fix that time you raced the clock hacking together the demo for Monday
+morning last week. It's upgrading parts to take advantage of the state of the art to prevent people
+tripping over the unexpectedly inconsistent behaviour.<p>After thinking about this for a while, I think a much better metaphor is working in a job shop. A
+job shop is the department (on site or outsourced) in a physical engineering focused organization
+where one-off or at least uncommon components are made. It's a highly flexible environment where
+needs are met mostly on demand. There's a lot of machinery that often sits idle but each is vital to
+executing certain types of tasks. If not managed correctly, the complexity of changing requests and
+the shop itself can begin to conflict leading to inefficacy. You have to take care to fix broken
+machines, but in proportion to utilization. There's trade-offs to the entire process, and all the
+time you have to take workplace safety seriously.<p>I think this better captures both how developers see themselves and how non-developers see the code
+monkeys. For developers, it reflects the dynamic nature of the job. The <q>hidden</q> problems
+outsiders don't really see (machinery and workflows) and reflects better why it's important to take
+cleanliness seriously. The metaphor is the messy job shop. When you don't take time to clean up, bad
+things happen.<p>Sure, you can go fast by just leaving the scraps where they land, leaving your tools everywhere
+between jobs, and just doing the minimum to get the prototype ready. Someone will end up with a
+workplace injury as a result. Sure code usually doesn't maim people (robotics, defence, and some
+embedded devs obviously aside), but there are definitely statistically likely consequences to
+letting a code base's complexity spiral out of control.<p>For example, you don't have to take the time to remove the old authentication flows after the new
+one's in place (it's a lot of work to clean up after all), but some dev will trip on it and we'll
+have to deploy the public relations team to cover for us when all our customer's data hits the web.
+Security degrades when developers don't fully understand what the code they're writing can do when
+an attacker attempts to abuse it.<p>Another more mundane mess, it takes a dozen files over three code bases to add that button because
+you have to climb over half a dozen legacy decisions that left tools in all the wrong places. All
+that moving about takes time. It makes parts far more complicated and the work take much longer.
+Then the workflow dictates you get others to also crawl over all that to review the changes before
+we ship. If we just took time to clean up the mess, now and in the future you only need one (or
+maybe two) changes to do something this simple. Remove what you no longer need to be laying around
+(prevent trips and spills). Likewise, keep machines often used together, physically near (reduce the
+time spent moving between parts of the code).<p>Most people can only stand working in a mess for so long. People who take pride in an orderly
+environment will leave if things get too insane. Finding a zip tie holding the breaker closed after
+someone used a jigsaw to cut an I-beam because the belt saw's been broken for the last month and
+you're going to debate quitting to work elsewhere. Same thing if you constantly get pressured into
+shipping too fast, cutting corners, and making only half understood changes to the product.<p>When people leave, they take domain expertise with them. Even if you can teach a new hire this
+complex mess, it's much harder when you have to stop and explain why we keep the saws behind the
+ceiling tiles. You see, it's because at one point the product… And we had to… Which meant…
+Obviously! Hope you're as excited to work here as we are to have the help. No, we don't have time to
+clean up the saws, now help me cut the trigger guard off this angle grinder so we can ship by end of
+day.<h2><a id=there-is-such-a-thing-as-too-clean href=#there-is-such-a-thing-as-too-clean>There Is Such a Thing As Too Clean</a></h2><p>Unlike debt (where no debt is reasonable), it's not reasonable to keep the workshop a class 10,000
+cleanroom capable of aerospace manufacturing unless that's what you're really doing all day. Some
+systems require an extreme amount of cleanliness (human safety systems, security critical systems,
+payment processing, compilers, libraries, <abbr title="et cetera; and so forth">etc.</abbr>) but
+every single one still requires care and attention. Clean up the broken glass, install safety
+bumpers on sharp edges, put out the spill sign to document the big stuff for now, secure the
+flammables, and sweep the floors every so often.<p>Will our customers notice? Well, if you don't have time to get it right because you're actively
+ignoring the mess, maybe? Other teams at other companies who keep a clean shop can just turn around
+faster. You've also potentially got a talent problem. Turnover is expensive. If other shops are
+tidier, where you can place your hand on a hammer when you need one, why would you keep putting up
+with this nonsense? Mission sure, but your experience is dictated by the worst part. If that's hours
+a day wrestling with your build systems, nobody's happy. Fix it! Passion is always noticeable in the
+results.<h2><a id=conclusion href=#conclusion>Conclusion</a></h2><p>That's why I think a job shop's cleanliness is a much more apt metaphor than debt. Cleanliness is
+not a business trade-off, it's a human trade-off. You trade-off safety and sanity for speed.
+Cleaning up a mess that's grown out of control is much more work than cleaning as you go. There are
+limits to clean, but they're best defined by those who work in it through standards and negotiation.
+If we don't get it right, regulation will likely step in to cover cases where our mess is hurting
+people by imposing bureaucratic checkboxes. That won't improve morale, but will reduce direct harms.
+Yay, <abbr title="Test Procedure Specification">TPS</abbr> reports and
+<abbr title="Design Failure Mode and Effect Analysis">DFMEA</abbr> meetings.</article></main>

@@ -1,0 +1,155 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2023/10/31/spooky_python_file_descriptors by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:23 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2023/10/31/spooky_python_file_descriptors.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=preload href=../../../../code.woff2 as=font type=font/woff2 crossorigin><script src=../../../../tag/egg.js defer></script><title>Spooky Python File Descriptors</title>
+<meta name=author content="Keller"><meta name=description content="File like objects can behave in unexpected ways at times if you think too much of them like Python objects."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Spooky Python File Descriptors</h1><p>After a bit of a recent bug hunt I wanted to share what I found because it caught me up thinking too
+much in Python abstractions and not enough in what's actually happening. I found most people I
+explained it too were also kind of surprised so I thought it might be of interest more broadly. It
+also helped me understand that context blocks (<code>with open(…) as file:</code>) when handling
+open files are generally unnecessary. Also, since it's Halloween here in Canada, I couldn't help but
+pick a silly title for this post.<p>When you open a file in Python, it returns an object. That object proxies between Python's and your
+operating system's concept of a file. On POSIX-like operating systems, that takes the form of an
+<code>open(2)</code> function call using libC. That function returns an integer, the so called file
+descriptor. It's an ID the system gives your code to index into the file description table for your
+process within the kernel which holds all the actual file specific metadata it needs to operate on
+that file for you.<div class=no-css></div><pre><code>open("/dev/zero")</code></pre><pre><samp>&lt;_io.TextIOWrapper name='/dev/zero' mode='r' encoding='UTF-8'></samp></pre><p>Nothing new there for anyone who's used Python to read files before. The spooky thing is what
+happens if you close the file descriptor and reuse the variable.<div class=no-css></div><pre><code>import os
+
+file = open("/dev/zero")
+file.read(5)
+os.close(file.fileno())
+
+file = open("/dev/zero")
+file.read(5)
+os.close(file.fileno())</code></pre><p>Take a second to think about what happens if you run this in the Python
+<abbr title="Read, Evaluate, Print, Loop">REPL</abbr>. Once you've thought about what should happen,
+go ahead and run it line by line. If you don't have a <code>/dev/zero</code> (like if you're running
+on Windows) you can replace those filenames with any file on your system.<hr><p>The first block does pretty much what you'd expect. It opens <code>/dev/zero</code> and then reads
+up to five characters from it. The <abbr title="Read, Evaluate, Print, Loop">REPL</abbr> shows us
+the return value of <code>file.read(5)</code> which is the string
+<samp>'\x00\x00\x00\x00\x00'</samp>.<p>The next line is also not too special. <code>file.fileno()</code> returns the integer file
+descriptor. <code>os.close()</code> calls the operating system's <code>close(2)</code> function
+passing that integer to it. This is something you probably shouldn't do in Python. But why?<p>Well, the next block, identical to the first shows us what can happen. If you ran the code above,
+when you reached the second <code>file.read(5)</code>, you probably saw it raised an exception.<div class=no-css></div><pre><samp>Traceback (most recent call last):
+  File "&lt;stdin>", line 1, in &lt;module>
+OSError: [Errno 9] Bad file descriptor</samp></pre><p>Why? In Python, file like object destructors automatically close their file descriptor. The bug
+wasn't actually on the line where we read the file, but on the line above where we open a new file
+and simultaneously release the last reference we have to the previous file object by assigning the
+new file to the variable holding the old reference.<p>What happens is you first asked the operating system for a file descriptor in the first block. The
+operating system returns some integer for the file, let's say <code>3</code>. Python creates a new
+object and sets that number as a property of the object so it can perform operations on that file
+using the normal libC file function calls (<code>read(2)</code>, <code>write(2)</code>, etc…).<p>When you close the file descriptor directly, the Python object doesn't know the file is now closed.
+Not only that, but the operating system is now free to reuse that file descriptor. That's exactly
+what happens when you open the file again the second time. The operating system sees the lowest
+available file descriptor is <code>3</code> and issues it to Python which creates another object and
+stores it as a property. Unfortunately for us, now there are two objects that both think they own
+file descriptor <code>3</code>.<p>Now the assignment takes place. Python decrements the reference count on the old object and assigns
+the new one to the variable <var>file</var>. At this point, the runtime can garbage collect the old
+object. To help prevent resource leaks, Python's file objects automatically call the
+<code>close(2)</code> function on the descriptor for us since it thinks it's still open. One benefit
+is this means you can't leak file descriptors by not using the context blocks on files
+(<code>with open(…):</code>). When the function that opened a file returns, the file will be
+destructed and closed automatically.<p>The stage is set. The problem is our new object has suddenly had it's descriptor closed by a
+different object because they both think they own the same resource. At this point, when you try and
+read from the new file object, the operating system will return an error because the file is already
+closed.<h2><a id=creepy-crawly-bugs href=#creepy-crawly-bugs>Creepy Crawly Bugs</a></h2><p>In the above it's pretty simple to avoid an issue. Honestly it's kind of a weird set of operations
+to both manually close the file descriptor (instead of calling <code>file.close()</code>) and reuse
+a variable with an unrelated reference like this. I've never run into this issue before. What I did
+have to figure out though shares the same file descriptor alias problem. It's async!<p>Python async has become all the rage it seems. There are a bunch of gotchas with Python's asyncio
+that can often trip people up. One of them is that forking and async don't really mix well. First,
+it's often not that you're forking, but some other library or tool is doing it for you. Second, many
+seem to think Python's event loop is automatically managed for them. That there's always an event
+loop available to schedule work. Third, many people writing libraries want to support both async and
+sync code. They often do so shipping the code as async with a set of thin wrapper functions around
+their async code.<div class=no-css></div><pre><code>import os
+import asyncio
+
+async def foo():
+	print("bar")
+
+loop = asyncio.new_event_loop()
+loop.run_until_complete(foo())
+
+if os.fork():
+	exit()
+
+loop.run_until_complete(foo())</code></pre><p>If you copy this to a file and run it, you'll see you end up with the same
+<samp>OSError: [Errno 9] Bad file descriptor</samp> exception. What's going on?<p>Well, asyncio is built on top of your operating system's socket file descriptor event queue. On
+<abbr title="Berkeley Software Distribution">BSD</abbr> based systems (like MacOS) that's
+<code>kqueue(2)</code>. On Linux, <code>epoll(2)</code>. For everything else, there's
+<code>select(2)</code>. You can see how it all works looking at the source of the
+<a href=https://github.com/python/cpython/blob/main/Modules/selectmodule.c>cPython select module</a>.<p>What this means though is that the python async loop is built on top of a file descriptor. One that
+can be closed. In fact, the select module explicitly sets it up to be closed when the program forks.
+It likely does this to prevent unaware children being given events they probably don't expect and
+prevent resource leaks. The problem is when libraries that previously weren't async suddenly start
+using it in a synchronous codebase that uses forks.<p>Often I see these libraries have a pattern that in it's simplest form looks something like this:<div class=no-css></div><pre><code>import asyncio
+
+async def async_foo():
+	print("bar")
+
+def foo():
+	loop = asyncio.get_event_loop()
+	return loop.run_until_complete(async_foo())</code></pre><p>The problem is that the default event loop may not exist. One way to prevent this as a library
+author is to not assume there's a global event loop. Definitely don't use
+<code>asyncio.run()</code>. That function will close the global event loop when it finishes.
+Instead, create a new loop of your own.<div class=no-css></div><pre><code>import asyncio
+
+async def async_foo():
+	print("bar")
+
+def foo():
+	loop = asyncio.new_event_loop()
+	try:
+		return loop.run_until_complete(async_foo())
+	finally:
+		loop.close()</code></pre><p>A bit of a tip if you're maintaining both sync and async classes or submodules is to generate the
+entire synchronous set at import time so you don't have to maintain two copies of the same setup.
+For example:<div class=no-css></div><pre><code>import asyncio
+import inspect
+import functools
+
+class AsyncFoo:
+	"""
+	Main way to interact with the Foo.
+	"""
+	async def foo(self):
+		print("bar")
+
+class Foo:
+	"""
+	Syncronous wrapper class for interacting with the Foo.
+	"""
+	def __init__(self):
+		self._async = AsyncFoo()
+
+	@staticmethod
+	def _setup_async_proxy():
+		"""
+		Statically proxy async methods of AsyncFoo in Foo at import
+		so unittest.mock.patch() can use autospec.
+		"""
+
+		def async_proxy(name, method):
+			@functools.wraps(method)
+			def wrapper(self, *args, **kwargs):
+				loop = asyncio.new_event_loop()
+				try:
+					func = getattr(self._async, name)
+					return loop.run_until_complete(func(*args, **kwargs))
+				finally:
+					loop.close()
+
+			return wrapper
+
+		for name, method in vars(AsyncFoo).items():
+			if name[0] != "_" and inspect.iscoroutinefunction(method):
+				setattr(Foo, name, async_proxy(name, method))
+
+Foo._setup_async_proxy()</code></pre><p>It'd be really great if coroutine objects could get a method like <code>.run_sync()</code> that made
+it easier for synchronous code to execute asynchronous code, possibly bypassing all the asynchronous
+queuing altogether and just blocking. Then you could run <code>val = foo().run_sync()</code> in
+synchronous code and we could skip all this.<p>Anyway, all the best. Hope this helped you understand much more of what's happening inside asyncio
+and avoid a bit of a puzzling situation. Maybe even simplify your work maintaining dual ecosystems.</article></main>

@@ -1,0 +1,36 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2020/11/06/animated_reel_menu_update by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:26 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2020/11/06/animated_reel_menu_update.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=preload href=../../../../code.woff2 as=font type=font/woff2 crossorigin><script src=../../../../tag/egg.js defer></script><title>Animated Reel Menu Update</title>
+<meta name=author content="Keller"><meta name=description content="Quick update about the state of my animated reel menu. Turns out we can optimise it by using the transform CSS style after all."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Animated Reel Menu Update</h1><p>This is a short post to shed light on something new I've learned and implemented since my post about
+the <a href=../../04/15/animated_reel_menu.html>animated reel menu</a>. While I originally
+rejected the <abbr title="Cascading Style Sheets">CSS</abbr> <code>transform</code> style
+definition, we can actually use it to achieve the same result and with better performance than we
+could using an <code>absolute</code> <code>top</code> method.<p>While reading through the
+<a href=https://csstriggers.com/><abbr title="Cascading Style Sheets">CSS</abbr> Triggers</a>
+website I noticed that both Blink and Gecko don't require a repaint when using transforms.<blockquote><p>Changing <code>top</code> alters the geometry of the element. That means that it may affect
+the position or size of other elements on the page, both of which require the browser to
+perform <em>layout</em> operations.<p>Once those layout operations have completed any damaged pixels will need to be
+<em>painted</em> and the page must then be <em>composited</em> together.</blockquote><blockquote><p>Changing <code>transform</code> does not trigger any geometry changes or painting, which is
+very good. This means that the operation can likely be carried out by the compositor thread
+with the help of the <abbr title="Graphics Processing Unit">GPU</abbr>.</blockquote><p>While originally I'd only explored the <code>scaleY()</code> transform, there's the
+<code>translateY()</code> function. No idea why I didn't think to use that. Regardless, the change
+to use the more efficient method is trivial. Instead of:<div class=no-css></div><pre><code>#menu.js {
+<del>	position: absolute;
+</del>	<del>top</del>: calc(-1 * var(--items) * var(--item-height));
+	transition: <del>top</del> var(--duration) ease;
+}
+
+#menu.js-open {
+	<del>top</del>: var(--item-height);
+}</code></pre><p>use:<div class=no-css></div><pre><code>#menu.js {
+	<ins>transform</ins>: <ins>translateY(</ins>calc(-1 * var(--items) * var(--item-height))<ins>)</ins>;
+	transition: <ins>transform</ins> var(--duration) ease;
+}
+
+#menu.js-open {
+	<ins>transform</ins>: <ins>translateY(</ins>var(--item-height)<ins>)</ins>;
+}</code></pre></article></main>

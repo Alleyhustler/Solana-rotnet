@@ -1,0 +1,304 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2020/08/03/rss_as_html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:26 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2020/08/03/rss_as_html.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=preload href=../../../../code.woff2 as=font type=font/woff2 crossorigin><script src=../../../../tag/egg.js defer></script><title>RSS as HTML</title>
+<meta name=author content="Keller"><meta name=description content="Have you seen the RSS Feed for this blog? Turns out the major browsers all support a decent subset of XSLT."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1><abbr title="Really Simple Syndication">RSS</abbr> as
+<abbr title="Hypertext Markup Language">HTML</abbr></h1><p><strong>Update (2024-01-28):</strong> I've removed support for this on my site's blog feed. To find
+out why, see my new post explaining
+<a href=../../../2024/01/28/why_i_removed_my_xslt_feed_template.html>why I removed my <abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> feeds template</a>.<hr><p>Have you seen the
+<a href=../../../index.xml><abbr title="Really Simple Syndication">RSS</abbr> Feed</a> for this
+blog? Turns out the major browsers all support a decent subset of
+<a href=https://developer.mozilla.org/en-US/docs/Web/XSLT><abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr></a>.<p>What's that mean though? It means you don't need to format your content as both a page and a feed.
+Your pages can be <abbr title="Really Simple Syndication">RSS</abbr> feeds and visa versa. Your
+audience can visit the same <abbr title="Uniform Resource Locator">URL</abbr> in their browser as in
+their feed reader. Even if you aren't replacing existing pages with their feed alternate, you don't
+have to link browsers to unstyled <abbr title="Extensible Markup Language">XML</abbr> documents
+(angle brackets panic the users). Instead, you can use all the same styles, scripting, and
+multimedia from the rest of your pages to hide <abbr title="Really Simple Syndication">RSS</abbr> in
+plain sight.<h2><a id=rss-primer href=#rss-primer><abbr title="Really Simple Syndication">RSS</abbr> Primer</a></h2><p><a href=https://www.rssboard.org/rss-specification><abbr title="Really Simple Syndication">RSS</abbr></a>,
+despite many companies' desire to see it die, remains one of the best ways to keep tabs on what
+people publish to the web. Thanks to
+<a href=https://en.wikipedia.org/wiki/Aaron_Swartz>Aaron Swartz</a>,
+<a href=https://en.wikipedia.org/wiki/Dave_Winer>Dave Winer</a>, and dozens of the folks behind a
+large number of the most popular <abbr title="Content Management Systems">CMS</abbr>, a large
+contingent of web content authors today produce feeds you can subscribe to.
+<a href=https://gizmodo.com/rss-is-better-than-twitter-1833624929>Other</a>
+<a href=https://danielmiessler.com/blog/its-time-to-get-back-into-rss/>people</a>
+<a href=https://getstream.io/blog/winds-2-0-its-time-to-revive-rss/>have</a>
+<a href=https://techcrunch.com/2018/04/07/rss-is-undead/>done</a>
+<a href=https://www.wired.com/story/rss-readers-feedly-inoreader-old-reader/>a</a>
+<a href=https://rsapkf.org/weblog/q2z>better</a>
+<a href=https://kevq.uk/please-add-rss-support-to-your-site>job</a>
+<a href=https://www.macsparky.com/blog/2017/11/the-case-for-rss>espousing</a>
+<a href=https://davidyat.es/2017/05/18/rss-nothing-better/>the</a>
+<a href=https://begriffs.com/posts/2016-05-28-rss-responsive-design.html>virtues</a>
+<a href=https://blog.theoldreader.com/post/84826194914/what-not-dying-looks-like>of</a>
+<abbr title="Really Simple Syndication">RSS</abbr> than I will here. What I hope you're more
+interested in is the guts of how it works in this context.<div class=no-css></div><pre><code>&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;rss version="2.0">
+&lt;channel>
+
+&lt;title>VE3ZSH - Blog&lt;/title>
+&lt;link>https://ve3zsh.ca/blog/index.html&lt;/link>
+&lt;description>Newest posts from VE3ZSH's blog.&lt;/description>
+&lt;language>en&lt;/language>
+
+&lt;item>
+	&lt;title>RSS as HTML&lt;/title>
+	&lt;link>https://ve3zsh.ca/blog/2020/08/03/rss-as-html.html&lt;/link>
+&lt;/item>
+
+&lt;item>
+	&lt;title>Animated Reel Menu&lt;/title>
+	&lt;link>https://ve3zsh.ca/blog/2020/04/15/animated-reel-menu.html&lt;/link>
+&lt;/item>
+
+&lt;item>
+	&lt;title>How To Secure Application Credentials&lt;/title>
+	&lt;link>https://ve3zsh.ca/blog/2020/01/24/how-to-secure-application-credentials.html&lt;/link>
+&lt;/item>
+
+&lt;/channel>
+&lt;/rss></code></pre><p>It's almost comically simple if you really know <abbr title="Hypertext Markup Language">HTML</abbr>
+(nesting
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div>&lt;div></a></code>
+elements isn't <abbr title="Hypertext Markup Language">HTML</abbr>). Start with a doctype
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/XML/XML_introduction#XML_declaration>&lt;?xml …?></a></code>.
+Next, a document root <code>&lt;rss></code> and body
+<code><a href=https://www.rssboard.org/rss-specification#requiredChannelElements>&lt;channel></a></code>.
+Instead of a separate head, you put the channel's metadata in the channel itself along with the
+<code><a href=https://www.rssboard.org/rss-specification#hrelementsOfLtitemgt>&lt;item></a></code>
+elements. Each item consists of a <code>&lt;title></code> and <code>&lt;link></code>. That's it!<p>Sure, you can add more. You can actually add anything you like. That's the extensible part of
+<abbr title="Extensible Markup Language">XML</abbr>. It's all a matter of what feed readers are
+looking for. We'll come back to that later.<h2><a id=format-wars href=#format-wars>Format Wars</a></h2><p>Some of you might be asking, what about <a href=https://tools.ietf.org/html/rfc4287>Atom</a>? I
+think there's some unnamed law of humans and technology that leads to format wars. Problems it
+solves:<ul><li>Invented at the <abbr title="Internet Engineering Task Force">IETF</abbr>.<li>Requires more code.<li>Pretends more than text and <abbr title="Hypertext Markup Language">HTML</abbr>
+work in descriptions.<li>Has <code><a href=https://www.w3schools.com/XML/xml_namespaces.asp>xmlns</a></code>
+attributes ensuring you link to the
+<abbr title="World Wide Web Consortium">W3C</abbr>.</ul><p>You can use either <abbr title="Really Simple Syndication">RSS</abbr> 2.0 or Atom, it doesn't
+matter. Just about every reader you can find supports both because they're functionally equivalent.
+Just different names for the same information.<p>Wait, <abbr title="Really Simple Syndication">RSS</abbr> 2.0? What happened to earlier versions?
+There's a number of v0.XX versions as <abbr title="Really Simple Syndication">RSS</abbr> went
+through changes before v1 was tagged. Some claim this protocol versioning and Mozilla's early
+non-compliant implementation were reasons Atom had the traction it did. While many feed readers can
+deal with these older versions, it makes much more sense to just use v2.0.<p>Another fun fact,
+<a href=http://www.aaronsw.com/2002/rss30><abbr title="Really Simple Syndication">RSS</abbr> 3.0</a>
+is a thing. Nobody publishes their feed in it as far as I know. No readers support it as far as I
+know. Aaron standardized and published the specification for it though. What makes it different?<ul><li>No more <abbr title="Extensible Markup Language">XML</abbr>; it's essentially plain text.<li>No more <abbr title="Hypertext Markup Language">HTML</abbr>; it's plain text.<li>Dates use an
+<a href=https://www.w3.org/TR/NOTE-datetime><abbr title="International Organization for Standardization">ISO</abbr> 8601 profile</a>.</ul><p>Then there's
+<a href=https://jsonfeed.org/><abbr title="JavaScript Object Notation">JSON</abbr> Feed</a>.
+Again, nobody publishes or reads these as far as I know. What are its differences?<ul><li>It uses <abbr title="JavaScript Object Notation">JSON</abbr> instead of
+<abbr title="Extensible Markup Language">XML</abbr>.<li>Items don't need titles.<li><q>Modern needs such as avatar images…</q></ul><p>You can even go <a href=https://microformats.org/wiki/h-feed>h-feed</a> if you want. It's a part
+of the <a href=https://developer.mozilla.org/en-US/docs/Web/HTML/microformats>Microformats</a>
+standard and a way of adding a set of <code>class</code> attributes to your existing pages. In
+theory, feed readers could use your existing pages as a feed. In reality, it seems only to
+<a href=https://microformats.org/wiki/search-engines>appease the <abbr title="Search Engine Optimisation">SEO</abbr> gods</a>.
+There are a couple feed readers for this, but they're not clients. Seems the people working on this
+want you to setup a number of servers for everything from authentication to
+<abbr title=Publish/Subscribe>pub/sub</abbr> and join what they're calling the <q>IndieWeb.</q>
+You can read more about the architecture in their page about
+<a href=https://indieweb.org/social_reader>social readers</a> if that interests you.<p>I'm sure there's a dozen other feed formats that nobody actually reads or writes, specified on some
+blog, wiki, or webpage. Every single one is the same essential thing: a document that contains a
+series of <abbr title="Uniform Resource Locators">URLs</abbr> where new ones indicate new content.<h2><a id=theory-of-operation href=#theory-of-operation>Theory of Operation</a></h2><p>With all of that out of the way, how do you get webpages that work in feed readers? Remember how I
+said <abbr title="Extensible Markup Language">XML</abbr> can contain anything you want. You can put
+anything inside and it's up to a reader what it wants to look at? Well, you can include an
+<code><a href=https://www.w3.org/TR/xml-stylesheet/>xml-stylesheet</a></code> processing
+instruction right below the
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/XML/XML_introduction#XML_declaration>&lt;?xml …?></a></code>
+declaration.<div class=no-css></div><pre><code>&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;?xml-stylesheet href="style.xml" type="text/xsl" media="screen"?>
+&lt;rss version="2.0">
+&lt;channel>
+…</code></pre><p>With that, you can link a document containing
+<abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr>.
+<abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> are just a set of
+<abbr title="Extensible Markup Language">XML</abbr> elements that an
+<abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> parser can use to transform
+an <abbr title="Extensible Markup Language">XML</abbr> document. Feel free to explore the full
+<a href=https://developer.mozilla.org/en-US/docs/Web/XSLT/Element>element list</a> along with the
+list of <a href=https://developer.mozilla.org/en-US/docs/Web/XPath/Functions>XPath functions</a>.
+Wait, functions? Yeah, <a href=https://developer.mozilla.org/en-US/docs/Web/XPath>XPath</a> and by
+extension <abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> offer a set of
+data transformation functions.<h3><a id=xhtml href=#xhtml><abbr title="Extensible Hypertext Markup Language">XHTML</abbr></a></h3><p>How does this extra <abbr title="Extensible Markup Language">XML</abbr> document help us? Well, the
+W3C spent a really long time between <abbr title="Hypertext Markup Language">HTML</abbr> version 4
+and <abbr title="Hypertext Markup Language">HTML</abbr> version 5 specifying and standardizing
+<abbr title="Extensible Hypertext Markup Language">XHTML</abbr>. Despite being a complete waste of
+time, it means you can put <abbr title="Hypertext Markup Language">HTML</abbr> directly in
+<abbr title="Extensible Markup Language">XML</abbr>.<p>Assuming your <abbr title="Hypertext Markup Language">HTML</abbr> isn't
+<a href=https://validator.w3.org/>garbage</a>, there's usually little required to convert your
+<abbr title="Hypertext Markup Language">HTML</abbr> to
+<abbr title="Extensible Markup Language">XML</abbr>. The first change from
+<abbr title="Hypertext Markup Language">HTML</abbr> 5 is that every tag must be closed. This means
+self closing tags like
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/br>&lt;br></a></code> need
+to indicate self closure (<code>&lt;br/></code>). This goes for all self closing tags including
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link>&lt;link></a></code>,
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta>&lt;meta></a></code>,
+and
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input>&lt;input></a></code>
+elements. You also can't get away with incorrect nesting
+(<code>&lt;p>Hello, &lt;em>World!&lt;/p>&lt;/em></code>) or the magic rules around tags like
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p>&lt;p></a></code> and
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li>&lt;li></a></code>
+which automatically close when they encounter any element other than
+<a href=https://html.spec.whatwg.org/multipage/dom.html#phrasing-content>phrasing elements</a>.<p>Likewise, any boolean attributes without a value need to be given their proper value. This includes
+attributes like
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden>hidden</a></code>,
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-defer>defer</a></code>,
+and
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-checked>checked</a></code>.
+They all need their own name as the attribute value (<code>hidden="hidden"</code>).<p>Besides that, the only other gotcha is
+<a href=https://developer.mozilla.org/en-US/docs/Glossary/Entity><code>&</code> entities</a>.
+In <abbr title="Extensible Markup Language">XML</abbr>, there are no named entities. All of them
+must use their numbered unicode code point escape. For example a <code>&amp;nbsp;</code> would be
+<code>&amp;#160;</code> and <code>&amp;lt;</code> would be <code>&amp;#60;</code>. You can get any
+code point fairly easily using
+<a href="https://gchq.github.io/CyberChef/#recipe=From_HTML_Entity()To_HTML_Entity(false,'Numeric%20entities')&input=Jm5ic3A7">CyberChef</a>.<h3><a id=xsl-templates href=#xsl-templates><abbr title="Extensible Stylesheet Language">XSL</abbr> Templates</a></h3><div class=no-css></div><pre><code>&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+&lt;xsl:template match="/rss/channel">
+&lt;html lang="en">
+&lt;head>
+	&lt;meta charset="utf-8"/>
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1"/>
+	&lt;title>&lt;xsl:value-of select="title"/>&lt;/title>
+	&lt;script src="script.js" defer="defer">&lt;/script>
+	&lt;link rel="stylesheet" href="style.css"/>
+&lt;/head>
+&lt;body>
+
+&lt;h1>Recent Blog Posts&lt;/h1>
+
+&lt;ul>
+&lt;xsl:for-each select="item">
+	&lt;li>
+		&lt;a href="{link}">
+			&lt;xsl:copy-of select="title/node()"/>
+		&lt;/a>
+	&lt;/li>
+&lt;/xsl:for-each>
+&lt;/ul>
+
+&lt;/body>
+&lt;/html>
+&lt;/xsl:template>
+&lt;/xsl:stylesheet></code></pre><p>Now that your <abbr title="Hypertext Markup Language">HTML</abbr> is also
+<abbr title="Extensible Markup Language">XML</abbr> we can define a template using it. We begin with
+a doctype
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/XML/XML_introduction#XML_declaration>&lt;?xml …?></a></code>.
+The next line is an
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/XSLT/Element/stylesheet>&lt;xsl:stylesheet></a></code>
+root element that gives us access to the <abbr title="Extensible Stylesheet Language">XSL</abbr>
+namespace (<code><a href=https://www.w3schools.com/XML/xml_namespaces.asp>xmlns</a></code>) of
+<abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> using the <code>xsl:</code>
+element name prefix. Technically this element's name is
+<code>&lt;http://www.w3.org/1999/XSL/Transform/stylesheet></code> but the namespace lets us shorten
+that.<p>With that out of the way we can define the body of our
+<abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> which will be an
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/XSLT/Element/template>&lt;xsl:template></a></code>
+element. This element has a <code>match</code> attribute which specifies an XPath of the elements in
+the document the template is applied to. Here we specify <code>/rss/channel</code> as there's
+nothing we want access to from outside that scope. Inside the template, we put our
+<abbr title="Extensible Hypertext Markup Language">XHTML</abbr>. Note that this can include a
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head>&lt;head></a></code>
+section with elements like
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link>&lt;link rel="stylesheet"></a></code>
+and
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script>&lt;script></a></code>.
+Once the <abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> are applied you
+have all the same <abbr title="Hypertext Markup Language">HTML</abbr> features you've come to
+expect.<p>One thing we can do in the
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head>&lt;head></a></code>
+is use an
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/XSLT/Element/value-of>&lt;xsl:value-of select="title"></a></code>
+to get the value of the <abbr title="Really Simple Syndication">RSS</abbr> <code>&lt;title></code>
+from the <code>&lt;channel></code> and use it as the title of the page. We select <code>title</code>
+because our template already set the context to <code>/rss/channel</code> and this is actually
+selecting <code>/rss/channel/title</code>.<p>Most of the document is boilerplate with a simple
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements>&lt;h1></a></code>
+and <code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul>&lt;ul></a></code>
+list to keep the example simple. The next important element is the
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/XSLT/Element/for-each>&lt;xsl:for-each select="item"></a></code>.
+This element loops over every element matching <code>/rss/channel/item</code> because our current
+context is <code>/rss/channel</code> and it selects <code>item</code>. For each item it will insert
+the value inside itself into the template.<p>The
+<a href=https://developer.mozilla.org/en-US/docs/Web/XSLT/Element/copy-of><code>&lt;xsl:copy-of select="title/node()"></code></a>
+here is similar to the <code>&lt;xsl:value-of></code> we saw in the head except
+<code>&lt;xsl:copy-of></code> doesn't give us just the text, instead it gives us the element we
+select and all its children. We use <code>title/node()</code> to give us just the contents of the
+<code>&lt;title></code> element inside itself meaning we don't put a <code>&lt;title></code> tag on
+the page. Note our context is <code>/rss/channel/item</code> so it's selecting
+<code>/rss/channel/item/title/node()</code>.<p>The other new construct is <code>{link}</code>. These curly brackets can be used in
+<abbr title="Extensible Stylesheet Language Transformations">XSLT</abbr> when you are inside an
+attribute string but want to use an XPath expression to insert a value. Here the XPath is
+<code>link</code> or <code>/rss/channel/item/link</code> given the context.<h2><a id=advanced-cases href=#advanced-cases>Advanced Cases</a></h2><p>We've already covered 99% of what you'd need to write your own. In this section I'll go over some
+things that you might want to try in your own setup.<h3><a id=accessing-element-attributes href=#accessing-element-attributes>Accessing Element Attributes</a></h3><div class=no-css></div><pre><code>&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+
+&lt;title>VE3ZSH - Blog&lt;/title>
+&lt;link rel="alternate" href="https://ve3zsh.ca/blog/index.html"/>
+&lt;updated>2020-08-03T00:00:00-04:00&lt;/updated>
+&lt;author>https://ve3zsh.ca/&lt;/author>
+&lt;id>https://ve3zsh.ca/&lt;/id>
+
+&lt;entity>
+	&lt;title>RSS as HTML&lt;/title>
+	&lt;link rel="alternate" href="https://ve3zsh.ca/blog/2020/08/03/rss-as-html.html">
+	&lt;id>https://ve3zsh.ca/blog/2020/08/03/rss-as-html.html&lt;/id>
+	&lt;updated>2020-08-03T00:00:00-04:00&lt;/updated>
+&lt;/entity>
+
+&lt;/feed></code></pre><p>If you do go the route of an Atom feed, you'll notice links are found inside attributes instead of
+the values of <code>&lt;link></code> elements. To access attributes in XPath, you use the
+<code>@attr</code> selector. For example, the anchor elements would go from
+<code>&lt;a href="{link}"></code> to <code>&lt;a href="{link/@href}"></code>.<h3><a id=descriptions-and-other-tags href=#descriptions-and-other-tags>Descriptions & Other Tags</a></h3><p>While all you need is <code>&lt;title></code> and <code>&lt;link></code>, I'd also suggest the
+<code>&lt;description></code> element. While some feeds don't include content, many people who use
+feed readers prefer to get the content of the site in the feed itself (not me). To do this, you can
+add a <code>&lt;description></code> element to your
+<abbr title="Really Simple Syndication">RSS</abbr> feed <code>&lt;item></code> elements. This
+description technically supports <abbr title="Hypertext Markup Language">HTML</abbr> but it's often
+best to stick to plain text for the widest compatibility.<p>While adding optional elements that some feed readers deem mandatory, I'd also suggest
+<code><a href=https://www.rssboard.org/rss-specification#ltpubdategtSubelementOfLtitemgt>&lt;pubDate></a></code>
+as there are some readers that won't display your feed at all without it. It's an
+<a href=https://tools.ietf.org/html/rfc822><abbr title="Request for Comments">RFC</abbr> 822</a>
+formatted date (<abbr title="Exempli Gratia">e.g.</abbr>
+<code>&lt;pubDate>03 Aug 2020 00:00:00 GMT&lt;/pubDate></code>).<p>If you're eager to put images into everyone's feed reader there's the
+<code><a href=https://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt>&lt;image></a></code>
+element. It lets you link a <abbr title="Graphics Interchange Format">GIF</abbr>,
+<abbr title="Joint Photographic Experts Group">JPEG</abbr>, or
+<abbr title="Portable Network Graphics">PNG</abbr> for the channel to be displayed in a feed reader.
+Be sure to read the spec for it as there's multiple required sub-elements. On a fun note, the
+specification says the assumed dimensions of your image are
+<a href=https://cyber.dabamos.de/88x31/>88x31</a>, so feel free to get retro with it.<p>Sadly, nobody supports the
+<code><a href=https://www.rssboard.org/rss-specification#ltcloudgtSubelementOfLtchannelgt>&lt;cloud></a></code>
+element as far as I know of, but technically this provides push based
+<abbr title="Really Simple Syndication">RSS</abbr>. Using an
+<abbr title="Hypertext Transfer Protocol">HTTP</abbr>-POST,
+<abbr title="Extensible Markup Language">XML</abbr>-<abbr title="Remote Procedure Call">RPC</abbr>,
+or <abbr title="Simple Object Access Protocol">SOAP</abbr> based
+<abbr title="Application Programming Interface">API</abbr> you can actually run a server
+implementing the <a href=https://www.rssboard.org/rsscloud-interface>rssCloud</a>
+<abbr title="Application Programming Interface">API</abbr>. I wouldn't suggest going through the
+effort to implement it though given broad lack of support in both feeds and readers. It's
+interesting to see new standards like <a href=https://www.w3.org/TR/activitypub/>ActivityPub</a>
+and <a href=https://micropub.spec.indieweb.org/>Micropub</a> don't support or even acknowledge
+this existing standard.<h3><a id=better-dates href=#better-dates>Better Dates</a></h3><p>One of my only complaints with <abbr title="Really Simple Syndication">RSS</abbr> is its use of
+<a href=https://tools.ietf.org/html/rfc822><abbr title="Request for Comments">RFC</abbr> 822</a>
+dates. To get better dates, you can go one of two routes, substrings or custom element.<p>The substring method would be using an
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/XSLT/Element/value-of>&lt;xsl:value-of></a></code>
+element with a <code>select</code> that includes the <code>substring()</code> function to grab
+pieces of the date. An example that grabs just the date would be
+<code>select="substring(pubDate, 1, 11)"</code> which would get you the value
+<code>03 Aug 2020</code>. It's not bad, but it's not really the date format I prefer.<p>To use an alternative format like
+<a href=https://en.wikipedia.org/wiki/ISO_8601><abbr title="International Organization for Standardization">ISO</abbr> 8601</a>
+it's simpler to just add a custom element. I use <code>&lt;isoDate></code> but you can use whatever
+you prefer. If you're using Atom, don't forget to obey the namespacing rules and put your new
+element in its own namespace. Fun observation, most feed parsers don't care about
+<abbr title="Extensible Markup Language">XML</abbr> dogma.<h2><a id=conclusion href=#conclusion>Conclusion</a></h2><p>I know it's been a long one. Why share all this? I'd love if more devs working on projects could
+sneak <abbr title="Really Simple Syndication">RSS</abbr> into the system. These days I just check my
+feed reader about once a day or so for updates instead of getting sucked into hours of checking and
+rechecking all the <s><q>engaging</q></s> addicting content portals. Humanist technology should
+focus on improving quality of life and getting out of the way. Too bad the economic model in vogue
+focuses on trying to do the opposite.</article></main>

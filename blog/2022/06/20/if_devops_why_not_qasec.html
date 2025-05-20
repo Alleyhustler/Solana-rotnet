@@ -1,0 +1,169 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2022/06/20/if_devops_why_not_qasec by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:24 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2022/06/20/if_devops_why_not_qasec.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><script src=../../../../tag/egg.js defer></script><title>If DevOps, Why Not QASec?</title>
+<meta name=author content="Keller"><meta name=description content="A possible future of quality software where security research skills help revitalise a dying art."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>If <abbr title="Developer Operations">DevOps</abbr>, Why Not <abbr title="Quality Assurance Security">QASec</abbr>?</h1><figure><div class=no-css></div><a href="https://books.google.com/ngrams/graph?content=DevOps&amp;year_start=2000&amp;year_end=2019&amp;corpus=26&amp;case_insensitive=true"><img src=devops_ngrams.webp alt="Graph showing occurrences of the word DevOps in the Google Books corpus which starts appearing around 2008 and then accelerates as it climes to reach 0.0000486479% of occurrences by 2019." loading=lazy height=433 width=984></a><div class=no-css></div><figcaption>A plot of occurrence frequency for "DevOps" over time from the
+<a href="https://books.google.com/ngrams/graph?content=DevOps&amp;year_start=2000&amp;year_end=2019&amp;corpus=26&amp;case_insensitive=true">Google Books Ngram Viewer</a>.</figcaption></figure><p>Over the last decade the term <abbr title="Developer Operations">DevOps</abbr> has entered the
+software development lexicon. While the term like most tech buzzwords has been abused to label just
+about everything for marketing purposes, I'd like to lay out what it means to me, why that matters,
+and what I think a future could look like with a new role.<h2><a id=what-is-devops href=#what-is-devops>What is <abbr title="Developer Operations">DevOps</abbr>?</a></h2><p>There are some to whom the concept of <abbr title="Developer Operations">DevOps</abbr> is a role
+within the organisation distinct from that of ordinary developer and essentially the same as the
+<abbr title="System Administrators">SysAdmins</abbr> that came before it. Some claim it's because
+the role emphasises writing more code, but <abbr title="System Administrators">SysAdmins</abbr>
+always were, so I don't understand why this usage persists.<p>My definition is fairly simple,
+<q>If you build it, you get to deal with it at three in the morning if it falls over.</q><p>The concept of <abbr title="Developer Operations">DevOps</abbr>, at least to me, is the realisation
+that the idea of specialising developers and operators was mainly a historical artifact of the price
+per unit of compute at the time. It's the realisation that by having developers who also operate
+what they develop you end up with a more reliable product, often with a faster time to market. This
+is caused by reducing the communication overhead in divided roles and eliminating any sort of delay
+or gate keeping on the part of an operator.<p>As parenthetical, I will note that the gate keeping tendency is somewhat justified as they become
+responsible for all the mistakes of the developer. If the code is poorly written, the developer
+doesn't have to wake up at all hours to deal with it. As a result, the operator is trying to
+minimise that by driving home good practices that tend to reduce this pain. I can't excuse what that
+gate keeping does to organisational velocity, only note a reason it exists. A reason that largely
+goes away if those taking risks are responsible for them.<p>Many people evangelise <abbr title="Developer Operations">DevOps</abbr> because it empowers
+developers to provision and administer the resources they need, while also holding them responsible
+for the reliability and cost of what they build. It's a strategy I quite enjoy as a developer. No
+more week-long provisioning tennis matches with <abbr title="Information Technology">IT</abbr>
+admins. Goodbye, half-baked internal self-service/ticketing nonsense. Bon voyage janky communal
+infrastructure. Now we can focus on what actually needs to get done to deliver value.<p>If uniting those two roles worked well, why not more?<h2><a id=the-ultimate-generalist href=#the-ultimate-generalist>The Ultimate Generalist</a></h2><p>There's been a number of people who think further reducing specialisation within an organisation is
+a good idea. I both support and discourage this line of reason. Should developers be experts in all
+areas of computing? They can darn well try. I do. Deliberate ignorance is a fairly worrying sign to
+me. Spend the time and money to let your employees learn as much as they can. Education is a
+compounding productivity multiplier.<p>On the other hand, expecting a new hire to know everything is not a reasonable hiring requirement.
+Not even if you expect to only hire people with a few decades of experience and pay them an
+unworldly rate. Additionally, how do you think anyone is going to reach that level of competence?
+Osmosis? No, you always get to train whoever you hire. You may not like that, but you get to anyway.
+Doesn't matter what a hire knows, they don't know your business.<p>There is a reason we specialise though. Specialisation tends to increase productivity. You tend to
+be more productive the more times you have done what you are about to do. As your further specialise
+you begin to understand ways to improve the process. You find ways to save time or create novel
+value. This is why practice is so important.<p>Combining developers and operators can beat this trend of hiring, <q>an ultimate generalist.</q>
+Splitting it up creates a moral hazard and communication impedance without providing the needed
+independence of concern. Software systems that are constantly changing are hard to learn.
+Understanding the changes as the person who created them is drastically simpler in software than
+understanding what someone else created. This is why as systems stabilise it can often make more
+sense to move back to specialising operators from developers again. It's also why the humble
+<abbr title="System Administrator">SysAdmin</abbr>, who configures and manages off the shelf
+software, hasn't gone away with the rise of <abbr title="Developer Operations">DevOps</abbr>.<h2><a id=the-qa-backslide href=#the-qa-backslide>The <abbr title="Quality Assurance">QA</abbr> Backslide</a></h2><p>I've become a bit annoyed that talented and valuable quality assurance roles have slowly been
+disappearing at companies I've worked for and somewhat generally through the industry. It's a
+pattern I've been seeing and think has to stem from some sort of survivorship bias.<p><a href=https://en.wikipedia.org/wiki/Survivorship_bias>Survivorship bias</a> for those who've
+never heard the term, refers to the tendency to only evaluate data that has managed to be collected
+after some (often hidden) elimination function has been applied to it.<p>The classic example of survivorship bias comes from World War II where
+<a href=https://apps.dtic.mil/sti/pdfs/ADA091073.pdf>Abraham Wald was trying to minimise aircraft bomber losses to enemy fire</a>.
+He and his colleagues at Columbia University examined the damage done to aircraft that had returned
+from missions and recommended adding armor to the areas that showed the least damage. The bullet
+holes in the returning aircraft represented areas where a bomber could take damage and still fly
+well enough to return safely to base. The bias would be to conclude the opposite by seeing all the
+holes as places to armour in order to prevent damage.<p>In a sort of similar bias, I think managers see <abbr title="Quality Assurance">QA</abbr> constantly
+letting bugs make it through to production. Unfortunately, this will always be the case thanks to a
+cruel combination of the <a href=https://en.wikipedia.org/wiki/Halting_problem>halting problem</a>
+and
+<a href=https://en.wikipedia.org/wiki/Gödel%27s_incompleteness_theorems>Gödel's incompleteness theorems</a>.
+Correctness will always be a statistical process. Yet it seems they reason that their
+<abbr title="Quality Assurance">QA</abbr> people are either ineffective or (at best) an optional
+part of the business' cost centre. In attempting to reduce the cost of developing software,
+<abbr title="Quality Assurance">QA</abbr> looks like an easy redundancy to eliminate.<p>After all, why can't developers <abbr title="Quality Assurance">QA</abbr> their own work? The reason
+is the same reason so much software is insecure.<p>The process of getting something to work is completely different from trying to find out how it
+breaks. The mental processes involved are, at best, superficially similar in that any kind of
+problem solving is similar. By that logic, let the developers figure out the company's market fit or
+reporting structure. These are just problems to be solved after all.<p>More reasonably, I propose we can and should begin to embrace that quality and security go hand in
+hand. Companies are starting to take <abbr title="Information Technology">IT</abbr> security
+seriously given the increasing legal liability. Regulatory requirements have finally begun to gain
+teeth. Market externalities such as these were always going to require political intervention. It's
+why you've likely seen real investment in software accessibility where you work over the last few
+years. It's becoming illegal not to. Now here, I propose it could be possible to use this to begin
+hiring a role I'd like to call <abbr title="Quality Assurance Security">QASec</abbr>.<h2><a id=what-is-qasec href=#what-is-qasec>What is <abbr title="Quality Assurance Security">QASec</abbr>?</a></h2><p><abbr title="Quality Assurance Security">QASec</abbr> is a better outcome than
+<abbr title="Quality Assurance">QA</abbr> Automation Developers (what some companies seem to think
+they should hire). The idea is to bring together the roles that love breaking software. Really great
+<abbr title="Quality Assurance">QA</abbr> is a boon to any organisation. I've worked with some
+extremely talented <abbr title="Quality Assurance">QA</abbr>s. They worked to automate the easy
+stuff by static analysis, automated tests for routine runtime issues, and even ran some rudimentary
+fuzzing. I want more of that, but coupled with deep knowledge of how to break what I write. I want a
+security researcher to rip my code apart (and I consider myself somewhat adept at security auditing
+code).<p>If you think the role of <abbr title="Quality Assurance">QA</abbr> is just mashing buttons in the UI
+or following some predefined list of things to do with the application every time you change it,
+you've either a) been really unkind to your <abbr title="Quality Assurance">QA</abbr>s or b) haven't
+seriously thought about the possibilities a <abbr title="Quality Assurance">QA</abbr> can provide
+your organisation. Unit testing and off-the-shelf analysers are there to handle the known unknowns.
+<abbr title="Quality Assurance">QA</abbr> is about finding and fixing the unknown unknowns. They
+aren't gatekeepers or compliance maintainers, <abbr title="Quality Assurance">QA</abbr> are an
+opportunity to put the software up against the opposition it faces in the real world without any of
+the consequences faced in the real world.<p>On the security side, I think this provides a means to get many more security researchers into
+companies that badly need them. There are probably companies who think they need
+<abbr title="Quality Assurance">QA</abbr> more than security researchers. Having seen what some
+security teams and their managers think is the best use of their time, I'm kind of saddened. Sure,
+the company <abbr title="Virtual Private Network">VPN</abbr> servers need managing and creating
+compliance checklists is fine… but that leaves a lot of value on the table like the
+<abbr title="Quality Assurance">QA</abbr> strategy I described above.<p>I think hiring and training for <abbr title="Quality Assurance Security">QASec</abbr> is also
+feasible. From a security researcher prospective, it's mostly a rebrand of
+<a href=https://en.wikipedia.org/wiki/Red_team>red teaming</a>. To some
+<abbr title="Quality Assurance">QA</abbr> has a fairly poor reputation unfortunately, so this role
+should focus on the technical competence and automation skills of those who do it. They are there to
+save the business time and money by remediating bugs and breaches that result in legal and
+reputational damages. Honestly, being good at security auditing tends to be a superset of what your
+average developer knows about the technology they work on anyway, so competence perception is likely
+to be quite high. I'd expect the people who fill this role would also serve as experts outside of
+direct workplace responsibilities and further improve employee training just from the conversations
+other developers are going to have with them.<p>On the <abbr title="Quality Assurance">QA</abbr> side, learning a lot about security is a great way
+to get really good at finding issues. There's probably a lot to learn, but it's not insurmountable.
+It just means learning a lot about how a variety of software systems work at a fundamental level
+(something everyone would benefit from). On some level you get to work at becoming smarter than your
+average developer. Security theory mostly consists of a wide variety of patterns that lead to ways
+the software can be made to do things it shouldn't. It's about problem solving to overcome layers of
+defense, and trying to think about things from a new prospective. It also takes looking beyond a
+single unit of code because vulnerabilities tend to present themselves around the interfaces
+different developers worked behind. This is because they didn't fully understand what the other side
+of that interface did or failed to account for the possibility of malice from beyond that interface.<h2><a id=qasec-in-the-organization href=#qasec-in-the-organization><abbr title="Quality Assurance Security">QASec</abbr> in the Organisation</a></h2><p>I'm not going to pretend like I know how this role fits best into your organisation. I can however
+take a swing at a few possible examples and then hope others share their experience on the subject
+over time.<p>The first constraint is the cross-boundary nature of the role. As I mentioned, it is at the
+interfaces (sometimes called abstractions) that many problems exist. This would imply an incorrect
+structure would be embedding someone within a single team. While
+<abbr title="Quality Assurance Security">QASec</abbr> people are likely to work with teams prior to
+launch or at the planning stage of a project, it's also important that they be given boundary
+responsibilities. I might even consider a rotating assignment that looks at the boundaries between
+each pairing of teams within the organisation.<p>Another front is going to be automating compliance and verification. As I mentioned, great
+<abbr title="Quality Assurance">QA</abbr>s tend to automate the trivial stuff. Empower your
+<abbr title="Quality Assurance">QA</abbr> to automate. The role should encourage developing new lint
+rules, generalised unit tests, and implementing a culture of fuzz testing within the organisation. I
+do not mean <abbr title="Quality Assurance Security">QASec</abbr> should write unit tests for
+developers. Developers can write their own unit tests. I mean beyond unit testing. No, not
+integration testing. I meant tests that catch issues
+<abbr title="Quality Assurance Security">QASec</abbr> is routinely finding within the organisation.
+Tests that can be deployed across teams, code bases,
+<abbr title="et cetera; and so forth">etc.</abbr> to catch things the developers seem to
+consistently miss.<p>In a similar spirit, I'd also see <abbr title="Quality Assurance Security">QASec</abbr> working to
+develop libraries and tools for developers that implement best practices and facilitate doing the
+correct thing (instead of the existing strategy that leads to the wrong thing). An example would be
+how using React leads to a far lower incident rate of <abbr title="Cross Site Scripting">XSS</abbr>
+attack vectors, or how using stored procedures dramatically reduces the likelihood of
+<abbr title="Structured Query Language">SQL</abbr> injection attacks while improving database
+performance. These are a fantastic improvement to both developer productivity and business risk
+profile that can be achieved when <abbr title="Quality Assurance Security">QASec</abbr> build in
+order to address an issue.<p>I'd focus on developing fuzzers. In <abbr title=Professor>Prof.</abbr> Barton Miller and
+colleagues' 2020 paper
+<a href=https://ieeexplore.ieee.org/document/9309406>The Relevance of Classic Fuzz Testing: Have We Solved This One?</a>,
+they again looked at just standard command line utilities on
+Mac<abbr title="Operating System">OS</abbr>, Linux, and
+Free<abbr title="Berkeley Software Distribution">BSD</abbr> and found 12-19% of these widely used
+programs would crash on random input. These crashes can be leveraged into exploits. This work began
+because in 1988, <abbr title=Professor>Prof.</abbr> Barton Miller had students generate and send
+random input to command line tools and found 25-33% of those widely used programs would crash. In 30
+years the problem has at best gotten 50% better. Fuzzing is fairly easy once you learn how to do it.
+It just takes time to implement and a desire to really find where things break.<p>As a final broader thought, I might make <abbr title="Quality Assurance Security">QASec</abbr>
+responsible for system measurement in general within the organisation. Software has been getting
+<a href=https://www.techempower.com/benchmarks/>measurably slower over time</a> despite the almost
+unimaginable performance improvements hardware manufactures have been able to deliver over the same
+time. Data systems often have
+<a href=https://jepsen.io/analyses>demonstrably incorrect behaviour</a> that can lead to
+corruption or complete loss. I might consider tasking
+<abbr title="Quality Assurance Security">QASec</abbr> with starting a culture of empirical system
+measurement. Many software organisations don't do what I'd consider basic system design in requiring
+metric performance on things like latency or throughput. To bootstrap that, I might lean on
+<abbr title="Quality Assurance Security">QASec</abbr>.<h2><a id=summary href=#summary>Summary</a></h2><p>Combine security researchers and <abbr title="Quality Assurance">QA</abbr>. Both are needed and the
+skills of each are more aligned than development is with either. There's a great need for security
+research in businesses that may be best obtained by rebranding the concept of
+<abbr title="Quality Assurance">QA</abbr>. I'm also not going to lie, it's kind of fun to say
+<abbr title=Security>Sec</abbr>-<abbr title="Quality Assurance">Q-A</abbr>-Team.</article></main>

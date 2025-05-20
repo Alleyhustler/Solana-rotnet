@@ -1,0 +1,94 @@
+@media print {
+    .no-print {
+        display: none!important
+    }
+
+    .page-break {
+        display: block;
+        break-before: page;
+        page-break-before: always
+    }
+
+    html,body,main,article {
+        font-size: 10pt;
+        line-height: 1.2;
+        margin: 0;
+        max-width: 100%;
+        min-height: initial;
+        padding: 0
+    }
+
+    article p,article ul,article ol,article dl {
+        text-align: left
+    }
+
+    h1,h2,h3,h4 {
+        margin-left: 0!important;
+        break-after: avoid;
+        page-break-after: avoid
+    }
+
+    h1+h2,h2+h3,h3+h4,p+ul,p+ol {
+        break-before: avoid;
+        page-break-before: avoid
+    }
+
+    img,svg,audio,video,canvas,figure,blockquote {
+        break-inside: avoid;
+        page-break-inside: avoid
+    }
+
+    a[href]::before {
+        content: "["
+    }
+
+    a[href]::after {
+        content: "](" attr(href)")"
+    }
+
+    a,a[href]::before,a[href]::after {
+        color: #00e
+    }
+
+    a[target=_blank]::after {
+        display: inline;
+        transform: rotate(0);
+        font-size: initial;
+        line-height: inherit;
+        position: static;
+        top: initial
+    }
+
+    abbr {
+        text-decoration: none
+    }
+
+    input,button,a.button,code,kbd,samp,var {
+        background: 0 0!important;
+        color: var(--black)!important;
+        font-size: .8em;
+        line-height: 1.2
+    }
+
+    a.button {
+        font-size: initial
+    }
+
+    pre,code,kbd,samp,var {
+        border: none!important;
+        white-space: pre-wrap
+    }
+
+    pre code,pre samp {
+        max-height: none
+    }
+
+    input,button,a.button {
+        border: 1px solid var(--mid)!important
+    }
+
+    main::before {
+        content: var(--qrl);
+        float: right
+    }
+}

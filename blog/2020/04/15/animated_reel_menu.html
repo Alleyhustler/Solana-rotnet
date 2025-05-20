@@ -1,0 +1,221 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2020/04/15/animated_reel_menu by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:26 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2020/04/15/animated_reel_menu.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=preload href=../../../../code.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=../../../../tag/bezier.css><link rel=stylesheet href=../../../../tag/form.css><script src=../../../../tag/bezier.js defer></script><link rel=stylesheet href=style.css><script src=script.js defer></script><title>Animated Reel Menu</title>
+<meta name=author content="Keller"><meta name=description content="Someone suggested I write a post about how my menu button works. This is that post."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Animated Reel Menu</h1><p>I ended up sharing my last post on
+<a href=../../01/24/how_to_secure_application_credentials.html>how to secure application credentials</a>
+with a couple friends and colleagues. While the feedback was positive and full of great suggestions,
+many made note of or asked me about the site's menu button. One even suggested I write a post about
+how it works. This is that post.<p>If your user agent supports it and you haven't clicked the menu button before, please do. I'll wait!
+It's the 3 white lines in the top left corner (often called the hamburger icon).<h2><a id=theory-of-operation href=#theory-of-operation>Theory of Operation</a></h2><p>The core gimmick takes advantage of
+<a href=https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions><abbr title="Cascading Style Sheets">CSS</abbr> transitions</a>.
+More specifically, how they apply to <abbr title="Scalable Vector Graphics">SVG</abbr>
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path>&lt;path></a></code>
+elements'
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray>stroke-dasharray</a></code>
+and
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset>stroke-dashoffset</a></code>
+styles. You start by creating a long path with a short line segment along it. Now you can animate it
+to travel along the length of the path and grow and shrink as desired.<aside id=demo1></aside><pre><code>&lt;svg viewBox="0 0 32 16" width="0" height="0">
+	&lt;path id="path" d="m 0,8 c 16,-16 16,16 32,0" />
+&lt;/svg></code></pre><div class=no-css></div><pre><code>svg {
+	width: 100%;
+	height: 100%;
+}
+
+#path {
+	fill: none;
+	stroke: #000;
+	stroke-dasharray: 8 32;
+	animation: demo 1s linear infinite;
+}
+
+@keyframes demo {
+	from { stroke-dashoffset: 40; } /* 8 + 32 = 40 */
+	to   { stroke-dashoffset: 0 ; }
+}</code></pre><p>The rest is mostly just implementation details. Seriously, like 4 lines of productive code smothered
+by 150 lines of orchestration, usability, and edge cases. That's kind of a lie, but you can totally
+go implement your own without reading further. In fact, I strongly encourage you to stop reading and
+try it. Solving your failures is orders of magnitude more educational than reading some blog post.<h2><a id=progressive-enhancement href=#progressive-enhancement>Progressive Enhancement</a></h2><p>I pride myself on a site that's fairly lean and accessible. You can use just about any user agent
+and it should look good. To achieve this we start with something simple and add features. This also
+improves fault tolerance because bugs are more likely to leave the site degraded instead of broken.
+To begin, we need to define the look of the
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav>&lt;nav></a></code>
+when we don't have JavaScript. I like a navigation strip when there's few items, but you do you.<div class=no-css></div><pre><code>&lt;header id="top">
+	&lt;nav id="menu">
+		&lt;a>Link 1&lt;/a> &lt;span class="no-css">|&lt;/span>
+		&lt;a>Link 2&lt;/a> &lt;span class="no-css">|&lt;/span>
+		&lt;a>Link 3&lt;/a> &lt;span class="no-css">|&lt;/span>
+		&lt;a>Link 4&lt;/a>
+	&lt;/nav>
+&lt;/header></code></pre><p>We can now
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-defer>defer</a></code>
+a script. When run, this script adds a <code>.js</code> class to the menu elements. This indicates
+they're under JavaScript control, after which we can define states with
+<abbr title="Cascading Style Sheets">CSS</abbr> classes that we add and remove to control the view.
+For example, the menu being open can be defined with <code>.js-open</code>, and its absence
+indicating the menu is closed.<aside id=demo2></aside><pre><code>"use strict";
+(() => {
+	let top = document.getElementById("top");
+	let menu = document.getElementById("menu");
+	let btn = document.createElement("button");
+
+	top.style.setProperty("--items", menu.children.length);
+
+	btn.title = "Menu";
+	btn.innerHTML = "$lt;button title="Menu">&lt;svg>...&lt;/svg>$lt;/button>";
+
+	function open() {
+		menu.classList.add("js-open");
+		btn.classList.add("js-open");
+		btn.onclick = close;
+	}
+
+	function close() {
+		menu.classList.remove("js-open");
+		btn.classList.remove("js-open");
+		btn.onclick = open;
+	}
+
+	btn.onclick = open;
+	menu.classList.add("js");
+	top.classList.add("js");
+	top.insertBefore(btn, menu);
+})();</code></pre><p>Notice that our script creates its own
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button>&lt;button></a></code>
+with our <abbr title="Scalable Vector Graphics">SVG</abbr> inside. Doing it this way instead of
+adding the button directly to the page prevents having a broken button when a user's agent doesn't
+support or allow JavaScript. This is much cleaner than using
+<abbr title="Cascading Style Sheets">CSS</abbr> to hide the button because some user agents don't
+support <abbr title="Cascading Style Sheets">CSS</abbr>. Amusingly, there's just no practical way to
+know how an agent will render what we tell it to. All we can do is test in a bunch of them and hope
+for the best. Pretty sad considering you and I are probably running one of the same two processor
+<abbr title="Instruction Set Architectures">ISAs</abbr> but I can't render anything consistently for
+you because we insist on developing everything for web browsers.<h2><a id=animation href=#animation>Animation</a></h2><p>After we have our menu, the next challenge is getting the right feel when people open and close it.
+Animation is a subtle art, just like lighting and sound. When it's bad people will notice. They'll
+complain or even sometimes complement you. Both can be concerning. Most of the time, animations
+shouldn't be noticeable, if they are it's usually because they're distracting. When you nail it,
+people generally won't notice.<p>That's what worries me about people noticing the menu. It's intentionally a flashy animation, and
+adding it effectively lags the menu by 500<abbr title=Milliseconds>ms</abbr>. That's why you have
+to be careful. The wrong animation can destroy an otherwise decent experience by forcing people to
+sit through your unhelpful eye candy. Yet, you have to open the menu somehow (if you want a hidden
+menu). It could just pop into existence but I wanted something that gave the menu a <em>snappy</em>,
+sort of <em>comic</em> feel. I also wanted it to look like the menu was being essentially
+<em>let down</em> via the reel animation.<h3><a id=animating-the-menu href=#animating-the-menu>Animating The Menu</a></h3><p>At first I thought I wanted to unroll/fold the menu. If you look around online for
+<abbr title="Cascading Style Sheets">CSS</abbr> unrolling techniques, the common suggestions involve
+either
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/max-height>max-height</a></code> or
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/transform>transform</a></code>.
+Unfortunately, neither really captured the animation I had in my head.<aside id=demo3></aside><pre><code>#height {
+	transition: max-height 1s linear;
+	overflow: hidden;
+	max-height: 0;
+}
+
+#height.js-open {
+	max-height: 12em;
+}</code></pre><p>With
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/max-height>max-height</a></code>,
+the first problem is you need to know the initial height of the box. This means every time you add
+something to the list of items you'll have to modify the style sheet. It's either that, or put up
+with a large delay before the transition kicks in at high speed. The other problem is the animation
+seems to slide the content behind the bottom border. This could work with a drop shadow inside the
+box to really sell the cutout effect, however, that's not the feel I wanted. You also need to be
+careful about your
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing>box-sizing</a></code> to
+include things like the
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/border>border</a></code> and
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/padding>padding</a></code>
+properly.<div class=no-css></div><pre><code>#xform {
+	transition: transform 1s linear;
+	transform-origin: top;
+	transform: scaleY(0);
+}
+
+#xform.js-open {
+	transform: scaleY(1);
+}</code></pre><p>The big problem with
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/transform>transform</a></code> is
+it crushes the text into static before it winks out of existence. It makes a lot more sense if you
+realize it's actually doing a <abbr title="Three Dimensional">3D</abbr> rotation of the element, but
+<abbr title="Three Dimensional">3D</abbr> is definitely not the look I'm aiming for. Another common
+problem with transforms for this sort of thing is they explicitly don't modify the flow of the
+document. This is good for performance, and doesn't impact our use (assuming absolute positioning),
+but it is worth noting for other applications.<div class=no-css></div><pre><code>#slide {
+	transition: top 1s linear;
+	position: absolute;
+	top: -20em;
+}
+
+#slide.js-open {
+	top: 0em;
+}</code></pre><p>The slide under animation I went with based on
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/top>top</a></code> positioning also
+has a number of problems, but really nailed the look I was going for. It still has the known size
+problem
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/max-height>max-height</a></code>
+did. It now also has a scaling latency problem. To see this, quickly resize your browser or zoom in
+while looking at the menu button at the <a href=#top>top of this page</a>. You should be able to
+catch the bottom of the menu peaking out behind the top bar. We essentially have to leave the
+transition on the menu; this is the result. Overall, I can live with those issues though.<h3><a id=animating-the-button href=#animating-the-button>Animating The Button</a></h3><p>The button is often what gets the attention. The core to the feel of this animation includes
+principals like anticipation, follow through, overlapping action, slow in/out, arcs, secondary
+action, and exaggeration. These principals and some not used here were laid out by Ollie Johnston
+and Frank Thomas in their book, <cite>The Illusion of Life: Disney Animation</cite>. I'm not going
+to drill down on these here, but you should read that book and others on animation if you're
+interested in this sort of stuff.</p><ve3zsh-bezier x1=.3 y1=-.4 x2=.8 y2=1.4 autoplay></ve3zsh-bezier><p>One of the keys to the button's animation is the use of a
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function#cubic-bezier()>cubic-bezier</a></code>
+easing function on the transition. This alone provides follow through, slow in/out, and
+exaggeration. Bézier functions and the curves they plot are a deep mathematical subject. Here I only
+intend to cover just enough for you to better understand what a single line of
+<abbr title="Cascading Style Sheets">CSS</abbr> is computing for you. If you're curious just how
+much you can learn about these, <a href=https://pomax.github.io/>Pomax</a> has a great
+<a href=https://pomax.github.io/bezierinfo/>primer on Bézier curves</a> for you.<div class=no-css></div><pre><code>#top {
+	--item-height: 2em;
+	--duration:    .5s;
+	--dash-length:   8;
+	--dash-spaces:  32;
+}
+
+#top {
+	height: var(--item-height);
+	z-index: 1;
+}
+</code></pre><div class=no-css></div><pre><code>#top button path {
+	stroke-dashoffset: 0;
+	stroke-dasharray: var(--dash-length) var(--dash-spaces);
+	transition: stroke-dashoffset var(--duration) cubic-bezier(.3, -.4, .8, 1.4);
+}
+
+#top.js-open button path {
+	stroke-dashoffset: calc(
+		var(--dash-length) +
+		var(--dash-spaces)
+	);
+}</code></pre><div class=no-css></div><pre><code>#menu.js {
+	position: absolute;
+	top: calc(-1 * var(--items) * var(--item-height));
+	transition: top var(--duration) ease;
+}
+
+#menu.js-open {
+	top: var(--item-height);
+}</code></pre><p>The <abbr title="Too Long; Didn't Read">TL;DR</abbr> is that a cubic Bézier is just a Bézier
+function where the largest term is cubic (t<sup>3</sup>). The Bézier function is defined by a number
+of <code>(x, y)</code> points equal to the function degree plus one, four in the cubic case (3 + 1),
+and computes based on an input variable <code>t</code>. The value of <code>t</code> ranges from 0 to
+1 and represents the percent along the Bézier from the start to the end. The four points define the
+start point, the end point, and two control points.<p>When using a
+<code><a href=https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function#The_cubic-bezier_class_of_easing_functions>cubic-bezier</a></code>
+you're only asked for two points <code>(x1, y1)</code> and <code>(x2, y2)</code> because the start
+and end are always <code>(0, 0)</code> and <code>(1, 1)</code> respectively. You can only set the
+<code>x</code> values between 0 and 1 because they influence the time component. Sadly being able to
+have things happen before they start or after they end wouldn't really make sense in the context of
+a transition (no time travel allowed).<p>Finally, using some math called
+<a href=https://www.math.ucdavis.edu/~kkreith/tutorials/sample.lesson/cardano.html>Cardano's method</a>,
+you can derive an equation where instead of <var>t</var> (the distance along the line) you pass the
+transition's completion (from 0 to 1) and it calculates the amount (0 to 1) to rescale the
+property's value. <a href=https://en.wikipedia.org/wiki/Linear_interpolation>Interpolating</a> by
+that value you can go from the start to the end of the transition Bézier smooth.<h2><a id=conclusion href=#conclusion>Conclusion</a></h2><p>Not much else to say. I hope you can use the path based segment animation to do something else cool.<aside id=demo5></aside></article></main>

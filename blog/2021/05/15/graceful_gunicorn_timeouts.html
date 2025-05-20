@@ -1,0 +1,86 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2021/05/15/graceful_gunicorn_timeouts by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:26 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2021/05/15/graceful_gunicorn_timeouts.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><link rel=preload href=../../../../code.woff2 as=font type=font/woff2 crossorigin><script src=../../../../tag/egg.js defer></script><title>Graceful Gunicorn Timeouts</title>
+<meta name=author content="Keller"><meta name=description content="How to gracefully catch and cleanup when your Python web service is going to timeout."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Graceful Gunicorn Timeouts</h1><p><em>Update (2022-04-22):</em> The described behaviour below is no longer accurate. Instead,
+<var>--graceful-timeout</var> seems completely broken. Today <var>--timeout</var> sends a
+<var>SIGABRT</var> as before but then 2 seconds later it sends a <var>SIGKILL</var> which you cannot
+trap. A <code>GracefulExit</code> handler may still be useful, just know you don't seem to be able
+to modify the grace period anymore.<p>In case you're using <a href=https://gunicorn.org/>Gunicorn</a> and haven't read the manual, I
+figured I'd let you know how your code can more gracefully handle timeouts.
+<a href=https://docs.gunicorn.org/en/stable/signals.html>Gunicorn timeouts are signaled</a> using
+the Unix <var><a href=https://en.wikipedia.org/wiki/Signal_(IPC)#SIGABRT>SIGABRT</a></var> signal.
+<del datetime=2022-04-22>Gunicorn provides an option called <var><a href=https://docs.gunicorn.org/en/stable/settings.html#graceful-timeout>graceful-timeout</a></var> which allows you to have it send a second timeout signal using <var><a href=https://en.wikipedia.org/wiki/Signal_(IPC)#SIGTERM>SIGTERM</a></var>.</del>
+This means you can trap the <var>SIGABRT</var> and have a few precious seconds to try and more
+gracefully handle a timeout rather than just abandoning mid routine to return a generic timeout
+error.<p>First, the config. While there are a couple ways to configure Gunicorn, this is how you'd configure
+it using command line arguments:<div class=no-css></div><pre><code><del datetime=2022-04-22># Send SIGABRT at 5 seconds, send SIGTERM at 7 seconds
+gunicorn --timeout 5 --graceful-timeout 7 …</del>
+<ins datetime=2022-04-22># Send SIGABRT at 5 seconds followed by SIGKILL 2 seconds later
+gunicorn --timeout 5 …</ins>
+</code></pre><p>When it comes to writing Python code to use this config, here's an exception based system to handle
+graceful exits. First, we define a new interrupt object we can raise and a helper method to raise
+it.<div class=no-css></div><pre><code>import signal
+import types
+
+
+class GracefulExit(KeyboardInterrupt):
+	"""
+	An interrupt class to allow subroutines to try-except a block of code
+	that should have a chance to perform logic in the event of a graceful
+	exit signal (like keyboard interrupt or trapped Unix signal).
+
+	Properties:
+		signum: int
+			The Unix signal number trapped.
+		frame: frame
+			The python stack frame at the moment of interrupt.
+	"""
+
+	def __init__(self, signum: int, frame: types.FrameType):
+		"""
+		Store the values for handlers.
+
+		Arguments:
+			signum: int
+				The Unix signal number trapped.
+			frame: frame
+				Python stack frame of execution.
+		"""
+		super().__init__(f"{signal.Signals(signum).name} received.")
+		self.signum = signum
+		self.frame = frame
+
+	@staticmethod
+	def throw(signum: int, frame: types.FrameType):
+		"""
+		Pass to signal.signal() to raise a GracefulExit exception. Eg:
+
+			signal.signal(signal.SIGTERM, GracefulExit.throw)
+
+		Arguments:
+			signum: int
+				The Unix signal number trapped.
+			frame: frame
+				Python stack frame of execution.
+
+		Raises:
+			GracefulExit
+				This is the point…
+		"""
+		raise GracefulExit(signum, frame)
+</code></pre><p>Next, when initializing everything we also need to register our handler for the signal:<div class=no-css></div><pre><code>signal.signal(signal.SIGABRT, GracefulExit.throw)</code></pre><p>Finally, whenever we have a sensitive section of code, we can use a try-except block to provide a
+graceful exit strategy. Our interrupt class inherits from <code>KeyboardInterrupt</code> which
+provides us three options:<ol><li>catch <code>KeyboardInterrupt</code> which will also handle our new interrupt;<li>catch <code>GracefulExit</code> to ignore <code>KeyboardInterrupt</code> issues; or<li>catch both in their own block to provide different clean up routines.</ol><div class=no-css></div><pre><code>try:
+	… timeout code …
+except GracefulExit:
+	… clean up code …
+</code></pre><p>In case the inheritance from <code>KeyboardInterrupt</code> doesn't make sense, you should know that
+pressing <kbd>Ctrl+D</kbd> while using a
+<abbr title="Portable Operating System Interface">POSIX</abbr> terminal sends the current process a
+<var><a href=https://en.wikipedia.org/wiki/Signal_(IPC)#SIGINT>SIGINT</a></var>. This includes
+things running in CPython which by default
+<a href=https://github.com/python/cpython/blob/a5e64444e6df7d1d498576bab26deaddc288a7bd/Modules/signalmodule.c#L225>raises a <code>KeyboardInterrupt</code> when this happens</a>.</article></main>

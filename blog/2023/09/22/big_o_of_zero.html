@@ -1,0 +1,44 @@
+<!DOCTYPE html><!--┴─┬─┴─┤ᴥ•ʔ ├─┬─┴─┬─┴--><html lang=en>
+<!-- Mirrored from ve3zsh.neocities.org/blog/2023/09/22/big_o_of_zero by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 May 2025 11:00:23 GMT -->
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#073642"><link rel=canonical href=https://ve3zsh.ca/blog/2023/09/22/big_o_of_zero.html><link rel=icon href=../../../../favicon.ico sizes=16x16><link rel=icon href=../../../../favicon.svg type=image/svg+xml><link rel=stylesheet href=../../../../core.css><link rel=stylesheet href=../../../../print.css media=print><script src=https://ve3zsh.neocities.org/api.js defer></script><script src=../../../../core.js defer></script><link rel=alternate href=../../../index.xml type=application/rss+xml><script src=../../../../tag/egg.js defer></script><title>Big-O of Zero—Ο(0)</title>
+<meta name=author content="Keller"><meta name=description content="The speed of not doing work is key to software performance."><header id=top class=no-print><a id=logo href=../../../../index.html><img src=../../../../img/logo.png alt=VE3ZSH height=35 width=120></a><div class=spacer></div><nav id=menu><span class=no-css>Menu:</span>
+<a href=../../../../index.html class=menu-item><img src=../../../../img/icons/projects.svg alt decoding=async height=0 width=0>Projects</a> <span class=no-css>|</span>
+<a href=../../../index.html class=menu-item><img src=../../../../img/icons/writings.svg alt decoding=async height=0 width=0>Writings</a> <span class=no-css>|</span>
+<a href=../../../../links/index.html class=menu-item><img src=../../../../img/icons/links.svg alt decoding=async height=0 width=0>Links</a> <span class=no-css>|</span>
+<a href=../../../../contact/index.html class=menu-item><img src=../../../../img/icons/contact.svg alt decoding=async height=0 width=0>Contact</a></nav></header><hr class=no-css><main><article><h1>Big-O of Zero—<math><mi>Ο</mi><mo>(</mo><mn>0</mn><mo>)</mo></math></h1><p>Basically everyone who learns to program at some point learns about Big O notation. Most people are
+taught that the fastest algorithms are on the order of
+<math><mi>Ο</mi><mo>(</mo><mn>1</mn><mo>)</mo></math>. Not even close. The fastest are
+<math><mi>Ο</mi><mo>(</mo><mn>0</mn><mo>)</mo></math>.<p>What's <math><mi>Ο</mi><mo>(</mo><mn>0</mn><mo>)</mo></math>? It's the speed of not doing work. Most
+of the software performance problems you're likely experiencing aren't slow algorithms, or even
+shared resource contention, they're just waste. The vast majority of performance is being wasted
+doing a bunch of work that nobody needed done. Some routine examples I find are things like
+repeatedly serializing and deserializing or copying and reallocating objects that didn't need to be
+copied. Wrapping something in a for-loop that involves overhead for each iteration that could be
+eliminated by doing it in one go. Doing all sorts of make-work under the guise of "best practices,"
+being able to handle "arbitrary" inputs, or satiate some sense of aesthetic taste.<p><math><mi>Ο</mi><mo>(</mo><mn>0</mn><mo>)</mo></math> is what happens if you stop solving imaginary
+problems. It's what happens if you talk to your users/customers and find out what they
+<em>actually</em> need done. It's leaving boundaries until after you understand what the code
+actually needs to do instead of arbitrarily splitting up the problem over function calls, modules,
+or network stacks right at the start.<p>I'm serious, most of the optimization work I do is making code run in
+<math><mi>Ο</mi><mo>(</mo><mn>0</mn><mo>)</mo></math>. Simple example, there's a server that passes
+data to another. That second system's only job is to put that data in a database and send a message
+to yet another server. Don't ask me why, but it's a real example. Anyway, it was too slow. Accepting
+the data and putting it in the database was taking over 10 seconds. Why is it taking this long? A
+mountain of reasons, but the simplest was that it was
+<abbr title="JavaScript Object Notation">JSON</abbr> deserializing the data and using
+<abbr title="JavaScript Object Notation">JSON</abbr> schema to do input validation on a payload it
+was getting from a trusted system. It then re-serialized it and put it in a database, storing the
+data in a <abbr title="JavaScript Object Notation">JSON</abbr> column which caused the database to
+again deserialize it and normalize it for storage.<p>Why was it doing all this work? "Best practices." It's just what services do. How did I fix it?
+Accept the data as a binary payload and put it into a binary blob column. I'd have removed the whole
+thing but I can only exert so much influence. Now it takes a couple seconds, basically all of it on
+network overhead.<p>I find it funny just how much I constantly want to cut away at the system until it does only what it
+really needs to. It's why I remember formatting and reinstalling my first
+<abbr title=Microsoft>MS</abbr>-<abbr title="Disk Operating System">DOS</abbr> machine because it
+was too cluttered. Why my Linux of choice has gone from Ubuntu to Arch to Void. Why I often replace
+dependencies I added in the prototype with my own code once I understand what really needs to be
+done.<p>When your computer is busy doing things you really don't need it to be doing, it's wasting your
+time. It's a fun flame war to watch when people talk about how fast or slow a language or framework
+is. Fast or slow software's first order approximation is based on the knowledge you have in doing
+things that don't frivolously waste time.<p>I could type all day giving you example after example, but I'll just leave you with the
+<a href=https://twitter.com/mike_acton/status/989001065893801984>pocket Mike Acton</a>:<ol><li>Can we not do this at all?<li>Can we do this only once?<li>Can we do this fewer times?<li>Can we approximate the results so no one notices?<li>Can we use a small lookup table?<li>Can we use a small <abbr title="First In-First Out">FIFO</abbr>?<li>Can we constrain the problem further?</ol></article></main>
